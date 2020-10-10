@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/drawerLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="#EDEDED">
+
+    <Button
+        android:id="@+id/my_appointment"
+        android:layout_width="match_parent"
+        android:onClick="onClick"
+        android:layout_height="wrap_content"
+        android:text="@string/home_appointments" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:id="@+id/ll1">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="This is a list of your upcoming appointments."/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="More"/>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/my_schedule"
+        android:layout_width="match_parent"
+        android:onClick="onClick"
+        android:layout_height="wrap_content"
+        android:text="@string/home_schedules" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:id="@+id/ll2">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="This is medicine schedule for today."/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="More"/>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/my_pills"
+        android:onClick="onClick"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/home_pills" />
+</LinearLayout>

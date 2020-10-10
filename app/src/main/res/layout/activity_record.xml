@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/ques"
+        android:layout_width="match_parent"
+        android:layout_height="210dp"
+        android:background="@color/Blue"
+        android:gravity="center"
+        android:text="What is the name of medicine?"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textColor="@android:color/white"
+        android:textColorHint="@android:color/black"
+        android:textSize="25sp" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ViewFlipper
+            android:id="@+id/simpleViewFlipper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+                <EditText
+                    android:id="@+id/ans1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="40dp"
+                    android:ems="10"
+                    android:inputType="textPersonName" />
+
+                <Button
+                    android:id="@+id/buttonNext1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="#005"
+                    android:text="Next"
+                    android:onClick="onClick"
+                    android:textColor="#fff"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/rg1">
+
+                    <RadioButton
+                        android:id="@+id/ans2_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="40dp"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:onClick="checked"
+                        android:text="Pill"
+                        android:textSize="20sp"/>
+
+                    <RadioButton
+                        android:id="@+id/ans2_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="20dp"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:onClick="checked"
+                        android:text="Solution"
+                        android:textSize="20sp" />
+
+                    <RadioButton
+                        android:id="@+id/ans2_3"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="20dp"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:onClick="checked"
+                        android:text="Injection"
+                        android:textSize="20sp" />
+
+                    <RadioButton
+                        android:id="@+id/ans2_4"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="20dp"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:onClick="checked"
+                        android:text="Powder"
+                        android:textSize="20sp" />
+
+                    <RadioButton
+                        android:id="@+id/ans2_5"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="20dp"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:onClick="checked"
+                        android:text="Drops"
+                        android:textSize="20sp" />
+
+                    <RadioButton
+                        android:id="@+id/ans2_6"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="20dp"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:text="Inhaler"
+                        android:textSize="20sp" />
+
+                    <RadioButton
+                        android:id="@+id/ans2_7"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="20dp"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:onClick="checked"
+                        android:text="Other"
+                        android:textSize="20sp" />
+
+                </RadioGroup>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/ans3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:inputType="numberDecimal" />
+
+                <Spinner
+                    android:id="@+id/spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <Button
+                    android:id="@+id/buttonNext3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="#005"
+                    android:text="Next"
+                    android:onClick="onClick"
+                    android:textColor="#fff"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/set_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="invisible"/>
+
+                <TimePicker
+                    android:id="@+id/tp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <Button
+                    android:id="@+id/btn_set"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:onClick="setAlarm"
+                    android:text="Set Alarm"/>
+
+                <Button
+                    android:id="@+id/add_time"
+                    android:text="Add Another Time"
+                    android:onClick="addtime"
+                    android:visibility="invisible"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <Button
+                    android:id="@+id/buttonNext4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="#005"
+                    android:visibility="invisible"
+                    android:text="Next"
+                    android:onClick="onClick"
+                    android:textColor="#fff"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <Spinner
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/spinner2" />
+
+                <Button
+                    android:id="@+id/buttonNext5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="#005"
+                    android:text="Next"
+                    android:onClick="onClick"
+                    android:textColor="#fff"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <EditText
+                    android:id="@+id/ans6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="40dp"
+                    android:ems="10"
+                    android:inputType="number" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="(weeks)" />
+
+                <Button
+                    android:id="@+id/buttonNext6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="#005"
+                    android:text="Next"
+                    android:onClick="onClick"
+                    android:textColor="#fff"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+        </ViewFlipper>
+
+    </ScrollView>
+
+</LinearLayout>

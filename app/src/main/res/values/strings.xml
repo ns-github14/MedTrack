@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Blackcoffer_Neelanshi</string>
+    <string name="resend_link"><u>Send Again</u></string>
+    <string name="title_activity_home">Home</string>
+    <string name="action_logout">Logout</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_appointment">Book an Appointment</string>
+    <string name="menu_medicine">Order Medicines</string>
+    <string name="menu_emergency">Call 102</string>
+    <string name="menu_share">Share</string>
+    <string name="menu_send">Send</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="home_appointments">Upcoming Appointments</string>
+    <string name="home_schedules">Schedule for today</string>
+    <string name="home_pills">Add new medicine</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_tools">Tools</string>
+
+</resources>
