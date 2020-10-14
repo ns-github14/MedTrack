@@ -36,6 +36,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="40dp"
+                    android:layout_marginBottom="40dp"
                     android:ems="10"
                     android:inputType="textPersonName" />
 
@@ -43,12 +44,16 @@
                     android:id="@+id/buttonNext1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:background="#005"
-                    android:text="Next"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/login_button"
+                    android:padding="15dp"
                     android:onClick="onClick"
-                    android:textColor="#fff"
-                    android:textStyle="bold" />
+                    android:shadowColor="@color/Cyan"
+                    android:text="NEXT"
+                    android:textColor="@color/White" />
 
             </LinearLayout>
 
@@ -163,12 +168,16 @@
                     android:id="@+id/buttonNext3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:background="#005"
-                    android:text="Next"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/login_button"
+                    android:padding="15dp"
                     android:onClick="onClick"
-                    android:textColor="#fff"
-                    android:textStyle="bold" />
+                    android:shadowColor="@color/Cyan"
+                    android:text="NEXT"
+                    android:textColor="@color/White" />
 
             </LinearLayout>
 
@@ -208,13 +217,16 @@
                     android:id="@+id/buttonNext4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:background="#005"
-                    android:visibility="invisible"
-                    android:text="Next"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/login_button"
+                    android:padding="15dp"
                     android:onClick="onClick"
-                    android:textColor="#fff"
-                    android:textStyle="bold" />
+                    android:shadowColor="@color/Cyan"
+                    android:text="NEXT"
+                    android:textColor="@color/White" />
 
             </LinearLayout>
 
@@ -232,12 +244,16 @@
                     android:id="@+id/buttonNext5"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:background="#005"
-                    android:text="Next"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/login_button"
+                    android:padding="15dp"
                     android:onClick="onClick"
-                    android:textColor="#fff"
-                    android:textStyle="bold" />
+                    android:shadowColor="@color/Cyan"
+                    android:text="NEXT"
+                    android:textColor="@color/White" />
 
             </LinearLayout>
 
@@ -262,12 +278,16 @@
                     android:id="@+id/buttonNext6"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:background="#005"
-                    android:text="Next"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/login_button"
+                    android:padding="15dp"
                     android:onClick="onClick"
-                    android:textColor="#fff"
-                    android:textStyle="bold" />
+                    android:shadowColor="@color/Cyan"
+                    android:text="NEXT"
+                    android:textColor="@color/White" />
 
             </LinearLayout>
 

@@ -31,7 +31,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.my_schedule:    collapse(ll1);
                                       expand(ll2);
                                       break;
-            case R.id.my_pills:       Intent intent = new Intent(HomeActivity.this, RecordActivity.class);
+            case R.id.my_pills:       Intent intent = new Intent(HomeActivity.this, MapsActivity.class);
                                       startActivity(intent);
         }
     }

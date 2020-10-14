@@ -4,11 +4,11 @@
     <color name="Green">#4CAF50</color>
     <color name="Red">#D81B60</color>
     <color name="Gray">#4F3F51B5</color>
-    <color name="Blue">#3F51B5</color>
+    <color name="Blue">#0097A7</color>
     <color name="Pink">#FF4081</color>
     <color name="White">#FFFFFF</color>
     <color name="Cyan">#066e8a</color>
-    <color name="colorPrimary">#6200EE</color>
-    <color name="colorPrimaryDark">#3700B3</color>
-    <color name="colorAccent">#03DAC5</color>
+    <color name="colorPrimary">#0097A7</color>
+    <color name="colorPrimaryDark">#0097A7</color>
+    <color name="colorAccent">#0097A7</color>
 </resources>
