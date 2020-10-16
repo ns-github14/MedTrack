@@ -2,16 +2,31 @@ package com.example.blackcoffer_neelanshi;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
+import android.widget.Button;
 import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
 
-public class HomeActivity extends AppCompatActivity implements View.OnClickListener{
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
+
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
+
+public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
 
     LinearLayout ll1, ll2;
+    private AppBarConfiguration mAppBarConfiguration;
+    Button b1, b2, b3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,7 +36,45 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         ll2 = findViewById(R.id.ll2);
         collapse(ll1);
         collapse(ll2);
+        b1 = findViewById(R.id.my_appointment);
+        b2 = findViewById(R.id.my_schedule);
+        b3 = findViewById(R.id.my_pills);
+
+        b1.setOnClickListener(this);
+        b2.setOnClickListener(this);
+        b3.setOnClickListener(this);
+
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener((View view) -> {
+            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
+        });
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        // Passing each menu ID as a set of Ids because each
+        // menu should be considered as top level destinations.
+        mAppBarConfiguration = new AppBarConfiguration.Builder(
+                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow)
+                .setDrawerLayout(drawer)
+                .build();
+        /*NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
+        NavigationUI.setupWithNavController(navigationView, navController);*/
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    /*@Override
+    public boolean onSupportNavigateUp() {
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
+                || super.onSupportNavigateUp();
+    }*/
 
     public void onClick(View v){
         switch(v.getId()){
@@ -31,7 +84,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.my_schedule:    collapse(ll1);
                                       expand(ll2);
                                       break;
-            case R.id.my_pills:       Intent intent = new Intent(HomeActivity.this, MapsActivity.class);
+            case R.id.my_pills:       Intent intent = new Intent(HomeActivity.this, RecordActivity.class);
                                       startActivity(intent);
         }
     }

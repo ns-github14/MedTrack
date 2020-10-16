@@ -10,6 +10,8 @@
     <string name="menu_emergency">Call 102</string>
     <string name="menu_share">Share</string>
     <string name="menu_send">Send</string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="home_appointments">Upcoming Appointments</string>
