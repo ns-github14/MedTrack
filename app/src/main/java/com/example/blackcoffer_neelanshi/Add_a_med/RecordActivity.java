@@ -1,9 +1,8 @@
-package com.example.blackcoffer_neelanshi;
+package com.example.blackcoffer_neelanshi.Add_a_med;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -18,6 +17,9 @@ import android.widget.TimePicker;
 import android.widget.ViewFlipper;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.blackcoffer_neelanshi.HomeActivity;
+import com.example.blackcoffer_neelanshi.R;
 
 import java.util.ArrayList;
 import java.util.Calendar;

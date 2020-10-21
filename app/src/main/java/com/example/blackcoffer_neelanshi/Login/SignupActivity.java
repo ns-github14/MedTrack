@@ -20,6 +20,10 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class SignupActivity extends AppCompatActivity implements View.OnClickListener {
     Button b1;
@@ -27,6 +31,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
     EditText e1,e2;
     TextView t1,t2;
     private FirebaseAuth auth;
+    private FirebaseFirestore medtrack;
     String email, password;
     private ProgressDialog progressDialog;
 
@@ -41,7 +46,18 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         r = (RadioButton) findViewById(R.id.privacy_policy);
         progressDialog = new ProgressDialog(this);
         auth = FirebaseAuth.getInstance();
+        medtrack = FirebaseFirestore.getInstance();
     }
+
+    public void onChecked(View v){
+        if(v.getId()==R.id.doctor) {
+            ((RadioButton)findViewById(R.id.patient)).setChecked(false);
+        }
+        if(v.getId()==R.id.patient) {
+            ((RadioButton)findViewById(R.id.doctor)).setChecked(false);
+        }
+    }
+
     private void registerUser(){
 
         //getting email and password from edit texts
@@ -69,24 +85,55 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
 
         progressDialog.setMessage("Registering" + "\n" + "Please Wait...");
         progressDialog.show();
+    
+        Map<String, String> doc = new HashMap<String, String>();
+        doc.put("Name", "");
+
+        Map<String, String> pat = new HashMap<String, String>();
+        pat.put("Name", "");
+        pat.put("Age", "");
+        pat.put("Gender", "");
+        pat.put("Contact", "");
+        pat.put("Location", "");
+        pat.put("Height", "");
+        pat.put("Weight", "");
+        pat.put("Caretaker", "");
+        pat.put("Medical History", "");
 
         //creating a new user
-        auth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        //checking if success
-                        if(task.isSuccessful()){
-                            Intent intent = new Intent(SignupActivity.this, HomeActivity.class);
+        auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                //checking if success
+                if(task.isSuccessful()){
+                    //enter in Starting Gradle Daemon...database
+                    Intent intent = new Intent(SignupActivity.this, HomeActivity.class);
+                    if(((RadioButton)findViewById(R.id.doctor)).isChecked()) {
+                        try {
+                            medtrack.collection("Doctors").document(email).set(doc);
                             startActivity(intent);
-                        }else{
-                            //display some message here
-                            Toast.makeText(SignupActivity.this,"Registration Error",Toast.LENGTH_LONG).show();
                         }
-                        progressDialog.dismiss();
+                        catch(Exception e){
+                            Toast.makeText(SignupActivity.this,e.getMessage(),Toast.LENGTH_LONG).show();
+                        }
                     }
-                });
-
+                    else{
+                        try {
+                            medtrack.collection("Patients").document(email).set(pat);
+                            startActivity(intent);
+                        }
+                        catch(Exception e){
+                            Toast.makeText(SignupActivity.this,e.getMessage(),Toast.LENGTH_LONG).show();
+                        }
+                    }
+                }
+                else{
+                    //display some message here
+                    Toast.makeText(SignupActivity.this,"Registration Error"+task.getException(),Toast.LENGTH_LONG).show();
+                }
+                progressDialog.dismiss();
+            }
+        });
     }
 
     public void onClick(View view) {

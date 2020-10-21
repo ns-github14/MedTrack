@@ -1,4 +1,4 @@
-package com.example.blackcoffer_neelanshi;
+package com.example.blackcoffer_neelanshi.Add_a_med;
 
 import android.app.IntentService;
 import android.app.NotificationManager;
@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
+
+import com.example.blackcoffer_neelanshi.R;
 
 public class AlarmService extends IntentService {
     private NotificationManager alarmNotificationManager;
