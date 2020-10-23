@@ -20,7 +20,7 @@
         app:menu="@menu/activity_main_drawer" />
 
     <include
-        layout="@layout/app_bar_main"
+        layout="@layout/home_patient"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
