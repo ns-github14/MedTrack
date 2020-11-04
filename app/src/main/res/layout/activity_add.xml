@@ -1,0 +1,231 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView android:id="@+id/pill_name_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pill Name"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                android:textColor="#036697"
+                android:layout_marginTop="40dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="40dp"/>
+
+            <EditText android:id="@+id/pill_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/pill_name_title"
+                android:singleLine="true"
+                android:paddingBottom="5dp"
+                android:textSize="20sp"
+                android:layout_marginTop="40dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="40dp"
+                android:gravity="center"
+                android:background="@drawable/blue_textfield_activated_holo_light"
+                android:hint="@string/pill_name" />
+
+            <TextView android:id="@+id/time_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/pill_name_title"
+                android:text="Reminder Time"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="40dp"
+                android:textColor="#036697"/>
+
+            <TextView android:id="@+id/reminder_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/time_title"
+                android:layout_below="@+id/pill_name"
+                android:textSize="25sp"
+                android:hint="10:00 am"
+                android:paddingBottom="5dp"
+                android:gravity="center"
+                android:background="@drawable/blue_textfield_activated_holo_light"
+                android:layout_marginRight="10sp"
+                android:clickable="true"/>
+
+            <TextView android:id="@+id/schedule"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/reminder_time"
+                android:text="Schedule"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                android:textColor="#036697"
+                android:layout_marginTop="40dp"
+                android:layout_marginRight="10sp"
+                android:layout_marginLeft="10sp"/>
+
+            <CheckBox android:id="@+id/every_day"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Every day"
+                android:textSize="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="10sp"
+                android:layout_marginRight="10sp"
+                android:onClick="onCheckboxClicked"
+                android:layout_below="@+id/schedule"/>
+
+            <LinearLayout
+                android:id="@+id/checkbox_layout"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/reminder_time"
+                android:layout_toRightOf="@+id/schedule"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="40dp"
+                android:layout_marginLeft="10sp">
+
+                <com.example.blackcoffer_neelanshi.ViewController.CustomCheckBox
+                    android:id="@+id/checkbox_sunday"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center"
+                    android:onClick="onCheckboxClicked"
+                    android:padding="3.5dp"
+                    android:textSize="20sp"
+                    android:text="@string/Sunday" />
+
+                <com.example.blackcoffer_neelanshi.ViewController.CustomCheckBox
+                    android:id="@+id/checkbox_monday"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center"
+                    android:onClick="onCheckboxClicked"
+                    android:padding="3.5dp"
+                    android:textSize="20sp"
+                    android:text="@string/Monday"/>
+
+                <com.example.blackcoffer_neelanshi.ViewController.CustomCheckBox
+                    android:id="@+id/checkbox_tuesday"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:layout_marginBottom="10dp"
+                    android:onClick="onCheckboxClicked"
+                    android:padding="3.5dp"
+                    android:textSize="20sp"
+                    android:text="@string/Tuesday"/>
+
+                <com.example.blackcoffer_neelanshi.ViewController.CustomCheckBox
+                    android:id="@+id/checkbox_wednesday"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:button="@null"
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
+                android:onClick="onCheckboxClicked"
+                android:padding="3.5dp"
+                android:textSize="20sp"
+                    android:text="@string/Wednesday"/>
+
+                <com.example.blackcoffer_neelanshi.ViewController.CustomCheckBox
+                    android:id="@+id/checkbox_thursday"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center"
+                    android:onClick="onCheckboxClicked"
+                    android:padding="3.5dp"
+                    android:textSize="20sp"
+                    android:text="@string/Thursday"/>
+
+                <com.example.blackcoffer_neelanshi.ViewController.CustomCheckBox
+                    android:id="@+id/checkbox_friday"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:onClick="onCheckboxClicked"
+                    android:padding="3.5dp"
+                    android:layout_marginBottom="10dp"
+                    android:textSize="20sp"
+                    android:text="@string/Friday"/>
+
+                <com.example.blackcoffer_neelanshi.ViewController.CustomCheckBox
+                    android:id="@+id/checkbox_saturday"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:onClick="onCheckboxClicked"
+                    android:padding="3.5dp"
+                    android:textSize="20sp"
+                    android:text="@string/Saturday"/>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/footer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true" style="@android:style/ButtonBar"
+        android:background="#036697">
+
+        <Button
+            android:id="@+id/btn_cancel_alarm"
+            android:text="@string/str_btn_cancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:textColor="#ffffff"
+            style="?android:attr/borderlessButtonStyle"/>
+
+        <View android:layout_height="fill_parent"
+            android:layout_width="2dp"
+            android:background="@color/blue400"/>
+
+        <Button
+            android:id="@+id/btn_set_alarm"
+            android:text="@string/str_btn_set_alarm"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:textColor="#ffffff"
+            style="?android:attr/borderlessButtonStyle"/>
+
+    </LinearLayout>
+
+</RelativeLayout>
+
+
+
