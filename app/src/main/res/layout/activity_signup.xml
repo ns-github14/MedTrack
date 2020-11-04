@@ -8,7 +8,7 @@
     android:orientation="vertical"
     android:fillViewport="true"
     android:padding="20dp"
-    tools:context="com.example.blackcoffer_neelanshi.Login.SignupActivity">
+    tools:context="com.example.blackcoffer_neelanshi.ViewController.Login.SignupActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
