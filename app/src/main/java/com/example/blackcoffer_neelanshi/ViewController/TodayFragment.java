@@ -59,7 +59,7 @@ public class TodayFragment extends Fragment {
 
                 TextView t1v = new TextView(container.getContext());
                 t1v.setText(alarm.getPillName());
-                t1v.setTextColor(Color.WHITE);
+                //t1v.setTextColor(Color.WHITE);
                 t1v.setGravity(Gravity.CENTER);
                 t1v.setPadding(30, 30, 30, 30);
                 t1v.setTextSize(25);
@@ -72,7 +72,7 @@ public class TodayFragment extends Fragment {
 
                 String time = alarm.getStringTime();
                 t2v.setText(time);
-                t2v.setTextColor(Color.WHITE);
+                //t2v.setTextColor(Color.WHITE);
                 t2v.setGravity(Gravity.CENTER);
                 t2v.setPadding(30, 30, 30, 30);
                 t2v.setTextSize(25);
@@ -86,7 +86,7 @@ public class TodayFragment extends Fragment {
 
             TextView t1v = new TextView(container.getContext());
             t1v.setText("You don't have any alarms for Today!");
-            t1v.setTextColor(Color.WHITE);
+            //t1v.setTextColor(Color.WHITE);
             t1v.setGravity(Gravity.CENTER);
             t1v.setPadding(30, 30, 30, 30);
             t1v.setTextSize(25);

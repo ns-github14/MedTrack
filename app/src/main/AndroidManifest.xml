@@ -9,11 +9,10 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity
             android:name=".ViewController.AddActivity"
             android:label="@string/title_activity_add"
-            android:parentActivityName=".ViewController.MedActivity" >
+            android:parentActivityName=".ViewController.MedActivity">
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
@@ -23,7 +22,7 @@
         <activity
             android:name=".ViewController.AlertActivity"
             android:label="@string/title_activity_alert"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" >
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen">
             <intent-filter>
                 <action android:name=".Alertactivity" />
 
@@ -32,16 +31,14 @@
         </activity>
         <activity
             android:name=".ViewController.MedActivity"
-            android:label="@string/app_name" >
-        </activity>
+            android:label="@string/app_name" />
         <activity
             android:name=".ViewController.PillBoxActivity"
-            android:label="@string/title_activity_edit" >
-        </activity>
+            android:label="@string/title_activity_edit" />
         <activity
             android:name=".ViewController.ScheduleActivity"
             android:label="@string/title_activity_setting"
-            android:parentActivityName=".ViewController.MedActivity" >
+            android:parentActivityName=".ViewController.MedActivity">
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
@@ -50,15 +47,9 @@
         </activity>
         <activity
             android:name=".ViewController.EditActivity"
-            android:label="@string/title_activity_edit" >
-        </activity>
-
-        <activity
-            android:name=".ViewController.Patient.ProfileActivity"/>
-
-        <activity
-            android:name=".ViewController.Doctor.ProfileActivity_Doc" />
-
+            android:label="@string/title_activity_edit" />
+        <activity android:name=".ViewController.Patient.ProfileActivity" />
+        <activity android:name=".ViewController.Doctor.ProfileActivity_Doc" />
         <activity
             android:name=".Model.Location.MapsActivity"
             android:label="@string/title_activity_maps" />
@@ -71,12 +62,10 @@
              You can define the keys for the debug and release targets in src/debug/ and src/release/.
         -->
         <activity android:name=".Model.Add_a_med.RecordActivity" />
-
         <activity
             android:name=".ViewController.Patient.HomeActivity"
             android:label="@string/title_activity_home"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".ViewController.Doctor.HomeActivity_Doc"
             android:label="@string/title_activity_home"
@@ -99,13 +88,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".ViewController.Login.LoginActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ViewController.Login.SignupActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -120,13 +108,11 @@
             android:name=".Model.Add_a_med.AlarmService"
             android:enabled="true"
             android:exported="true" />
-
     </application>
-
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
 </manifest>

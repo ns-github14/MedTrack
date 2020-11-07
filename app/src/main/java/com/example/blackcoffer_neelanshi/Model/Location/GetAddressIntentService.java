@@ -56,10 +56,11 @@ public class GetAddressIntentService extends IntentService {
         }
         else {
             Address address = addresses.get(0);
-            String addressDetails = address.getFeatureName() + "\n" + address.getThoroughfare() + "\n" +
+            String addressDetails = address.getSubAdminArea() + ", " + address.getAdminArea();
+                    /* address.getFeatureName() + "\n" + address.getThoroughfare() + "\n" +
                     "Locality: " + address.getLocality() + "\n" + "County: " + address.getSubAdminArea() + "\n" +
                     "State: " + address.getAdminArea() + "\n" + "Country: " + address.getCountryName() + "\n" +
-                    "Postal Code: " + address.getPostalCode() + "\n";
+                    "Postal Code: " + address.getPostalCode() + "\n";*/
             sendResultsToReceiver(2, addressDetails);
         }
     }

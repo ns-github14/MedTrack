@@ -38,21 +38,21 @@ public class HistoryFragment extends Fragment {
 
         TextView tt1 = new TextView(container.getContext());
         tt1.setText("Pill Name");
-        tt1.setTextColor(Color.WHITE);
+        //tt1.setTextColor(Color.WHITE);
         tt1.setGravity(Gravity.CENTER);
         tt1.setTypeface(null, Typeface.BOLD);
         tbrow0.addView(tt1);
 
         TextView tt2 = new TextView(container.getContext());
         tt2.setText("Date Taken");
-        tt2.setTextColor(Color.WHITE);
+        //tt2.setTextColor(Color.WHITE);
         tt2.setGravity(Gravity.CENTER);
         tt2.setTypeface(null, Typeface.BOLD);
         tbrow0.addView(tt2);
 
         TextView tt3 = new TextView(container.getContext());
         tt3.setText("Time Taken");
-        tt3.setTextColor(Color.WHITE);
+        //tt3.setTextColor(Color.WHITE);
         tt3.setGravity(Gravity.CENTER);
         tt3.setTypeface(null, Typeface.BOLD);
         tbrow0.addView(tt3);
@@ -66,7 +66,7 @@ public class HistoryFragment extends Fragment {
 
             TextView t1v = new TextView(container.getContext());
             t1v.setText(history.getPillName());
-            t1v.setTextColor(Color.WHITE);
+            //t1v.setTextColor(Color.WHITE);
             t1v.setGravity(Gravity.CENTER);
             t1v.setMaxEms(4);
             tbrow.addView(t1v);
@@ -74,7 +74,7 @@ public class HistoryFragment extends Fragment {
             TextView t2v = new TextView(container.getContext());
             String date = history.getDateString();
             t2v.setText(date);
-            t2v.setTextColor(Color.WHITE);
+            //t2v.setTextColor(Color.WHITE);
             t2v.setGravity(Gravity.CENTER);
             tbrow.addView(t2v);
 
@@ -92,7 +92,7 @@ public class HistoryFragment extends Fragment {
 
             String time = nonMilitaryHour + ":" + minute + " " + history.getAm_pmTaken();
             t3v.setText(time);
-            t3v.setTextColor(Color.WHITE);
+            //t3v.setTextColor(Color.WHITE);
             t3v.setGravity(Gravity.CENTER);
             tbrow.addView(t3v);
 

@@ -1,16 +1,16 @@
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    android:fillViewport="true"
+    tools:context=".ViewController.AddActivity">
 
-    <ScrollView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
 
             <TextView android:id="@+id/pill_name_title"
                 android:layout_width="wrap_content"
@@ -19,83 +19,79 @@
                 android:textSize="25sp"
                 android:textStyle="bold"
                 android:textColor="#036697"
-                android:layout_marginTop="40dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="40dp"/>
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/time_title"/>
 
             <EditText android:id="@+id/pill_name"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/pill_name_title"
                 android:singleLine="true"
                 android:paddingBottom="5dp"
                 android:textSize="20sp"
-                android:layout_marginTop="40dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="40dp"
                 android:gravity="center"
                 android:background="@drawable/blue_textfield_activated_holo_light"
-                android:hint="@string/pill_name" />
+                android:hint="@string/pill_name"
+                app:layout_constraintHorizontal_bias="1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/time_title"/>
 
             <TextView android:id="@+id/time_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/pill_name_title"
                 android:text="Reminder Time"
                 android:textSize="25sp"
                 android:textStyle="bold"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="40dp"
-                android:textColor="#036697"/>
+                android:textColor="#036697"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintTop_toBottomOf="@+id/pill_name_title"
+                app:layout_constraintBottom_toTopOf="@+id/schedule"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
 
             <TextView android:id="@+id/reminder_time"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/time_title"
-                android:layout_below="@+id/pill_name"
                 android:textSize="25sp"
                 android:hint="10:00 am"
                 android:paddingBottom="5dp"
                 android:gravity="center"
                 android:background="@drawable/blue_textfield_activated_holo_light"
-                android:layout_marginRight="10sp"
-                android:clickable="true"/>
+                android:clickable="true"
+                app:layout_constraintHorizontal_bias="1"
+                app:layout_constraintTop_toBottomOf="@+id/pill_name"
+                app:layout_constraintBottom_toTopOf="@+id/schedule"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
 
             <TextView android:id="@+id/schedule"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/reminder_time"
                 android:text="Schedule"
                 android:textSize="25sp"
                 android:textStyle="bold"
                 android:textColor="#036697"
-                android:layout_marginTop="40dp"
-                android:layout_marginRight="10sp"
-                android:layout_marginLeft="10sp"/>
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/time_title"
+                app:layout_constraintBottom_toTopOf="@+id/checkbox_sunday"/>
 
             <CheckBox android:id="@+id/every_day"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Every day"
                 android:textSize="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginLeft="10sp"
-                android:layout_marginRight="10sp"
                 android:onClick="onCheckboxClicked"
-                android:layout_below="@+id/schedule"/>
-
-            <LinearLayout
-                android:id="@+id/checkbox_layout"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/reminder_time"
-                android:layout_toRightOf="@+id/schedule"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="40dp"
-                android:layout_marginLeft="10sp">
+                app:layout_constraintHorizontal_bias="1"
+                app:layout_constraintTop_toTopOf="@+id/schedule"
+                app:layout_constraintBottom_toBottomOf="@+id/schedule"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
 
                 <com.example.blackcoffer_neelanshi.ViewController.CustomCheckBox
                     android:id="@+id/checkbox_sunday"
@@ -103,12 +99,15 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:button="@null"
-                    android:layout_marginBottom="10dp"
                     android:gravity="center"
                     android:onClick="onCheckboxClicked"
                     android:padding="3.5dp"
                     android:textSize="20sp"
-                    android:text="@string/Sunday" />
+                    android:text="@string/Sunday"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/every_day"
+                    app:layout_constraintBottom_toTopOf="@+id/checkbox_monday"/>
 
                 <com.example.blackcoffer_neelanshi.ViewController.CustomCheckBox
                     android:id="@+id/checkbox_monday"
@@ -116,12 +115,15 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:button="@null"
-                    android:layout_marginBottom="10dp"
                     android:gravity="center"
                     android:onClick="onCheckboxClicked"
                     android:padding="3.5dp"
                     android:textSize="20sp"
-                    android:text="@string/Monday"/>
+                    android:text="@string/Monday"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/checkbox_sunday"
+                    app:layout_constraintBottom_toTopOf="@+id/checkbox_tuesday"/>
 
                 <com.example.blackcoffer_neelanshi.ViewController.CustomCheckBox
                     android:id="@+id/checkbox_tuesday"
@@ -130,11 +132,14 @@
                     android:layout_weight="1"
                     android:button="@null"
                     android:gravity="center"
-                    android:layout_marginBottom="10dp"
                     android:onClick="onCheckboxClicked"
                     android:padding="3.5dp"
                     android:textSize="20sp"
-                    android:text="@string/Tuesday"/>
+                    android:text="@string/Tuesday"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/checkbox_monday"
+                    app:layout_constraintBottom_toTopOf="@+id/checkbox_wednesday"/>
 
                 <com.example.blackcoffer_neelanshi.ViewController.CustomCheckBox
                     android:id="@+id/checkbox_wednesday"
@@ -142,12 +147,15 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:button="@null"
-                android:layout_marginBottom="10dp"
                 android:gravity="center"
                 android:onClick="onCheckboxClicked"
                 android:padding="3.5dp"
                 android:textSize="20sp"
-                    android:text="@string/Wednesday"/>
+                    android:text="@string/Wednesday"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/checkbox_tuesday"
+                    app:layout_constraintBottom_toTopOf="@+id/checkbox_thursday"/>
 
                 <com.example.blackcoffer_neelanshi.ViewController.CustomCheckBox
                     android:id="@+id/checkbox_thursday"
@@ -155,12 +163,15 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:button="@null"
-                    android:layout_marginBottom="10dp"
                     android:gravity="center"
                     android:onClick="onCheckboxClicked"
                     android:padding="3.5dp"
                     android:textSize="20sp"
-                    android:text="@string/Thursday"/>
+                    android:text="@string/Thursday"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/checkbox_wednesday"
+                    app:layout_constraintBottom_toTopOf="@+id/checkbox_friday"/>
 
                 <com.example.blackcoffer_neelanshi.ViewController.CustomCheckBox
                     android:id="@+id/checkbox_friday"
@@ -171,9 +182,12 @@
                     android:gravity="center"
                     android:onClick="onCheckboxClicked"
                     android:padding="3.5dp"
-                    android:layout_marginBottom="10dp"
                     android:textSize="20sp"
-                    android:text="@string/Friday"/>
+                    android:text="@string/Friday"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/checkbox_thursday"
+                    app:layout_constraintBottom_toTopOf="@+id/checkbox_saturday"/>
 
                 <com.example.blackcoffer_neelanshi.ViewController.CustomCheckBox
                     android:id="@+id/checkbox_saturday"
@@ -185,21 +199,11 @@
                     android:onClick="onCheckboxClicked"
                     android:padding="3.5dp"
                     android:textSize="20sp"
-                    android:text="@string/Saturday"/>
-
-            </LinearLayout>
-
-        </RelativeLayout>
-
-    </ScrollView>
-
-    <LinearLayout
-        android:id="@+id/footer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_alignParentBottom="true" style="@android:style/ButtonBar"
-        android:background="#036697">
+                    android:text="@string/Saturday"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/checkbox_friday"
+                    app:layout_constraintBottom_toTopOf="@+id/btn_cancel_alarm"/>
 
         <Button
             android:id="@+id/btn_cancel_alarm"
@@ -208,24 +212,29 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
             android:textColor="#ffffff"
-            style="?android:attr/borderlessButtonStyle"/>
-
-        <View android:layout_height="fill_parent"
-            android:layout_width="2dp"
-            android:background="@color/blue400"/>
+            android:background="@color/Cyan"
+            android:layout_marginRight="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/checkbox_saturday"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btn_set_alarm"/>
 
         <Button
             android:id="@+id/btn_set_alarm"
             android:text="@string/str_btn_set_alarm"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
             android:layout_weight="0.5"
             android:textColor="#ffffff"
-            style="?android:attr/borderlessButtonStyle"/>
+            android:background="@color/Cyan"
+            app:layout_constraintStart_toEndOf="@+id/btn_cancel_alarm"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/checkbox_saturday"/>
 
-    </LinearLayout>
-
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
 
 
 

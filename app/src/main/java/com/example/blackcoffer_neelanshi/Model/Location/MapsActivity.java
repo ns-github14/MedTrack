@@ -14,10 +14,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.blackcoffer_neelanshi.R;
+import com.example.blackcoffer_neelanshi.ViewController.Doctor.ProfileActivity_Doc;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -105,8 +108,13 @@ public class MapsActivity extends AppCompatActivity {
             showResults(currentAdd);
         }
     }
+    Intent intent;
     private void showResults(String currentAdd) {
         currentAddTv.setText(currentAdd);
+        ((Button)findViewById(R.id.button)).setEnabled(true);
+        intent = new Intent(this, ProfileActivity_Doc.class);
+        intent.putExtra("location", currentAdd);
+        startActivity(intent);
     }
     @Override
     protected void onResume() {

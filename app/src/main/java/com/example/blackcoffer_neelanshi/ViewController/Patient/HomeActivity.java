@@ -14,11 +14,16 @@ import android.widget.LinearLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.viewpager.widget.ViewPager;
 
 import com.example.blackcoffer_neelanshi.R;
 import com.example.blackcoffer_neelanshi.Model.Add_a_med.RecordActivity;
 import com.example.blackcoffer_neelanshi.ViewController.Login.LoginActivity;
 import com.example.blackcoffer_neelanshi.ViewController.MedActivity;
+import com.example.blackcoffer_neelanshi.ViewController.TodayFragment;
+import com.example.blackcoffer_neelanshi.ViewController.adapter.TabsAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -28,6 +33,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private FirebaseAuth auth;
     String email;
     Intent intent;
+    private ViewPager tabsviewPager;
+    private TabsAdapter mTabsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,10 +58,10 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        FloatingActionButton fab = findViewById(R.id.fab);
+        /*FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener((View view) -> {
             startActivity(new Intent(getApplicationContext(), MedActivity.class));
-        });
+        });*/
     }
 
     @Override
@@ -94,11 +101,12 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     public void onClick(View v){
         switch(v.getId()){
-            case R.id.my_appointment: collapse(ll2);
+            case R.id.my_appointment: //collapse(ll2);
                                       expand(ll1);
                                       break;
             case R.id.my_schedule:    collapse(ll1);
-                                      expand(ll2);
+                                      //expand(ll2);
+                                      startActivity(new Intent(getApplicationContext(), MedActivity.class));
                                       break;
             case R.id.my_pills:       intent = new Intent(HomeActivity.this, RecordActivity.class);
                                       intent.putExtra("email", email);

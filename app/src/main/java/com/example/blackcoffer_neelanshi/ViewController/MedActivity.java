@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.blackcoffer_neelanshi.ViewController.Patient.HomeActivity;
 import com.example.blackcoffer_neelanshi.ViewController.adapter.TabsAdapter;
 
 import java.text.SimpleDateFormat;
@@ -152,11 +153,12 @@ public class MedActivity extends AppCompatActivity implements ActionBar.TabListe
     public void onTabSelected(ActionBar.Tab selectedtab, FragmentTransaction arg1) {
         /** Update tab position on tap */
         tabsviewPager.setCurrentItem(selectedtab.getPosition());
+        (selectedtab.getCustomView()).setBackgroundResource(R.color.Cyan);
     }
 
     @Override
     public void onTabUnselected(ActionBar.Tab arg0, FragmentTransaction arg1) {
-
+        arg0.getCustomView().setBackgroundResource(R.color.colorAccent);
     }
 
     public void sendAdd() {
@@ -179,6 +181,6 @@ public class MedActivity extends AppCompatActivity implements ActionBar.TabListe
 
     @Override
     public void onBackPressed() {
-        return;
+        startActivity(new Intent(getApplicationContext(), HomeActivity.class));
     }
 }
