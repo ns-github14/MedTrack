@@ -47,6 +47,7 @@ public class ProfileActivity extends AppCompatActivity {
     private ProfileActivity.LocationAddressResultReceiver addressResultReceiver;
     private Location currentLocation;
     private LocationCallback locationCallback;
+    Map<String, Object> upd = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -231,41 +232,52 @@ public class ProfileActivity extends AppCompatActivity {
             ((Button)findViewById(R.id.button)).setText(btn_text);
             findViewById(R.id.button).setBackgroundResource(color);
 
+            upd.put("Name", ((EditText)findViewById(R.id.editTextTextPersonName)).getText().toString());
             (findViewById(R.id.editTextTextPersonName)).setFocusable(bool);
             (findViewById(R.id.editTextTextPersonName)).setFocusableInTouchMode(bool);
             ((EditText) (findViewById(R.id.editTextTextPersonName))).setCursorVisible(bool);
 
+            upd.put("Gender", ((EditText)findViewById(R.id.editTextTextPersonName2)).getText().toString());
             (findViewById(R.id.editTextTextPersonName2)).setFocusable(bool);
             (findViewById(R.id.editTextTextPersonName2)).setFocusableInTouchMode(bool);
             ((EditText) (findViewById(R.id.editTextTextPersonName2))).setCursorVisible(bool);
 
+            upd.put("Caretaker", ((EditText)findViewById(R.id.editTextTextPersonName3)).getText().toString());
             (findViewById(R.id.editTextTextPersonName3)).setFocusable(bool);
             (findViewById(R.id.editTextTextPersonName3)).setFocusableInTouchMode(bool);
             ((EditText) (findViewById(R.id.editTextTextPersonName3))).setCursorVisible(bool);
 
+            upd.put("Location", ((EditText)findViewById(R.id.editTextTextPostalAddress)).getText().toString());
             (findViewById(R.id.editTextTextPostalAddress)).setFocusable(bool);
             (findViewById(R.id.editTextTextPostalAddress)).setFocusableInTouchMode(bool);
             ((EditText) (findViewById(R.id.editTextTextPostalAddress))).setCursorVisible(bool);
 
+            upd.put("Contact", (Integer.parseInt(((EditText)findViewById(R.id.editTextPhone)).getText().toString())));
             (findViewById(R.id.editTextPhone)).setFocusable(bool);
             (findViewById(R.id.editTextPhone)).setFocusableInTouchMode(bool);
             ((EditText) (findViewById(R.id.editTextPhone))).setCursorVisible(bool);
 
+            upd.put("Age", ((EditText)findViewById(R.id.editTextNumber)).getText().toString());
             (findViewById(R.id.editTextNumber)).setFocusable(bool);
             (findViewById(R.id.editTextNumber)).setFocusableInTouchMode(bool);
             ((EditText) (findViewById(R.id.editTextNumber))).setCursorVisible(bool);
 
+            upd.put("Height", ((EditText)findViewById(R.id.editTextNumber2)).getText().toString());
             (findViewById(R.id.editTextNumber2)).setFocusable(bool);
             (findViewById(R.id.editTextNumber2)).setFocusableInTouchMode(bool);
             ((EditText) (findViewById(R.id.editTextNumber2))).setCursorVisible(bool);
 
+            upd.put("Weight", ((EditText)findViewById(R.id.editTextNumber3)).getText().toString());
             (findViewById(R.id.editTextNumber3)).setFocusable(bool);
             (findViewById(R.id.editTextNumber3)).setFocusableInTouchMode(bool);
             ((EditText) (findViewById(R.id.editTextNumber3))).setCursorVisible(bool);
 
+            upd.put("Medical History", (Integer.parseInt(((EditText)findViewById(R.id.editTextTextMultiLine)).getText().toString())));
             (findViewById(R.id.editTextTextMultiLine)).setFocusable(bool);
             (findViewById(R.id.editTextTextMultiLine)).setFocusableInTouchMode(bool);
             ((EditText) (findViewById(R.id.editTextTextMultiLine))).setCursorVisible(bool);
+
+            medtrack.collection("Patients").document(email).update(upd);
         }
     }
 }

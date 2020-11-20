@@ -2,7 +2,6 @@ package com.example.blackcoffer_neelanshi.ViewController.Patient;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,17 +13,14 @@ import android.widget.LinearLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.blackcoffer_neelanshi.ViewController.BookAppointmentActivity;
 import com.example.blackcoffer_neelanshi.R;
 import com.example.blackcoffer_neelanshi.Model.Add_a_med.RecordActivity;
 import com.example.blackcoffer_neelanshi.ViewController.Login.LoginActivity;
 import com.example.blackcoffer_neelanshi.ViewController.MedActivity;
-import com.example.blackcoffer_neelanshi.ViewController.TodayFragment;
 import com.example.blackcoffer_neelanshi.ViewController.adapter.TabsAdapter;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
@@ -87,6 +83,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         if (id == R.id.action_settings) {
+            startActivity(new Intent(getApplicationContext(), BookAppointmentActivity.class));
             return true;
         }
 

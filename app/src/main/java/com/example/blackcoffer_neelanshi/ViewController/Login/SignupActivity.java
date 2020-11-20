@@ -87,19 +87,27 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         progressDialog.setMessage("Registering" + "\n" + "Please Wait...");
         progressDialog.show();
     
-        Map<String, String> doc = new HashMap<String, String>();
+        Map<String, Object> doc = new HashMap<>();
         doc.put("Name", "");
+        doc.put("Contact", 0);
+        doc.put("Fees", 0);
+        doc.put("From (Time)", "");
+        doc.put("To (Time)", "");
+        doc.put("Gender", "");
+        doc.put("Hospital", "");
+        doc.put("Location", "");
+        doc.put("Specialization", "");
 
         Map<String, String> user = new HashMap<String, String>();
 
-        Map<String, String> pat = new HashMap<String, String>();
+        Map<String, Object> pat = new HashMap<>();
         pat.put("Name", "");
-        pat.put("Age", "");
+        pat.put("Age", 0);
         pat.put("Gender", "");
-        pat.put("Contact", "");
+        pat.put("Contact", 0);
         pat.put("Location", "");
-        pat.put("Height", "");
-        pat.put("Weight", "");
+        pat.put("Height", 0);
+        pat.put("Weight", 0);
         pat.put("Caretaker", "");
         pat.put("Medical History", "");
 
