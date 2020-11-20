@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/White"
+    tools:context=".ViewController.BookAppointmentActivity"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/name_d"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Name"
+        android:textColor="#000"
+        android:textSize="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/specialization_d"/>
+
+    <TextView
+        android:id="@+id/specialization_d"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="specialization"
+        android:textColor="#000"
+        android:textSize="15dp"
+        app:layout_constraintBottom_toTopOf="@id/location_d"
+        app:layout_constraintEnd_toStartOf="@id/at_d"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/name_d" />
+
+    <TextView
+        android:id="@+id/at_d"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="at"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:textColor="#000"
+        android:textSize="15dp"
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintBottom_toTopOf="@id/location_d"
+        app:layout_constraintEnd_toStartOf="@id/hospital_d"
+        app:layout_constraintStart_toEndOf="@+id/specialization_d"
+        app:layout_constraintTop_toBottomOf="@+id/name_d" />
+
+    <TextView
+        android:id="@+id/hospital_d"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="hospital"
+        android:textSize="15dp"
+        android:textColor="#000"
+        app:layout_constraintStart_toEndOf="@+id/at_d"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/name_d"
+        app:layout_constraintBottom_toTopOf="@id/location_d"/>
+    
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/location_d"
+        android:hint="City, State"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/specialization_d"
+        app:layout_constraintBottom_toTopOf="@id/gender_d"/>
+
+    <TextView
+        android:id="@+id/gender_head_d"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Gender: "
+        app:layout_constraintBottom_toTopOf="@+id/time_head_d"
+        app:layout_constraintEnd_toEndOf="@id/name_d"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@id/name_d"
+        app:layout_constraintTop_toBottomOf="@+id/location_d"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/gender_d"
+        android:text="F"
+        android:layout_marginTop="20dp"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toEndOf="@+id/gender_head_d"
+        app:layout_constraintEnd_toStartOf="@id/contact_d"
+        app:layout_constraintBottom_toTopOf="@+id/timings_d"
+        app:layout_constraintTop_toBottomOf="@id/location_d"/>
+    
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/contact_d"
+        android:hint="+91-9876543210"
+        android:layout_marginTop="20dp"
+        app:layout_constraintHorizontal_bias="1"
+        app:layout_constraintStart_toStartOf="@id/name_d"
+        app:layout_constraintEnd_toEndOf="@id/name_d"
+        app:layout_constraintTop_toBottomOf="@id/location_d"
+        app:layout_constraintBottom_toTopOf="@id/timings_d"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/time_head_d"
+        android:text="Timings: "
+        android:layout_marginTop="5dp"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintEnd_toEndOf="@id/gender_head_d"
+        app:layout_constraintStart_toStartOf="@id/gender_head_d"
+        app:layout_constraintBottom_toTopOf="@+id/fee_head_d"
+        app:layout_constraintTop_toBottomOf="@+id/gender_head_d"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/timings_d"
+        android:text="XX:00 - YY:00"
+        android:layout_marginTop="5dp"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/time_head_d"
+        app:layout_constraintBottom_toTopOf="@+id/fees_d"
+        app:layout_constraintTop_toBottomOf="@+id/gender_d"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/fee_head_d"
+        android:text="Fees: "
+        android:layout_marginTop="5dp"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintEnd_toEndOf="@id/gender_head_d"
+        app:layout_constraintStart_toStartOf="@id/gender_head_d"
+        app:layout_constraintBottom_toTopOf="@+id/status"
+        app:layout_constraintTop_toBottomOf="@+id/time_head_d"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/fees_d"
+        android:text="Rs. xxxx"
+        android:layout_marginTop="5dp"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/fee_head_d"
+        app:layout_constraintBottom_toTopOf="@+id/status"
+        app:layout_constraintTop_toBottomOf="@+id/timings_d"/>
+
+    <Button
+        android:id="@+id/status"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:background="@color/Cyan"
+        android:onClick="onOpen"
+        android:padding="5dp"
+        android:text="Book an appointment"
+        android:textColor="#fff"
+        android:textSize="13dp"
+        app:layout_constraintVertical_bias="1"
+        app:layout_constraintHorizontal_bias="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
