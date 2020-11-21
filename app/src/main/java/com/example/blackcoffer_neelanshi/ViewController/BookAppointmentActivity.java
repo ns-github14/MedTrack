@@ -14,6 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -77,25 +79,46 @@ public class BookAppointmentActivity extends AppCompatActivity {
     }
 
     public void showCustomDialog(String path) {
-        FirebaseFirestore.getInstance().collection("Doctor").document(path).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        FirebaseFirestore.getInstance().document(path).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if(task.isSuccessful()){
                     @NonNull Doctor_Class model = new Doctor_Class();
                     DocumentSnapshot documentSnapshot = task.getResult();
 
-                    final Dialog dialog = new Dialog(getApplicationContext());
+                    final Dialog dialog = new Dialog(BookAppointmentActivity.this);
                     dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                     dialog.setContentView(R.layout.customview);
 
-                    ((TextView)findViewById(R.id.name_d)).setText(model.getName());
-                    ((TextView)findViewById(R.id.name_d)).setText(model.getSpecialization());
-                    ((TextView)findViewById(R.id.name_d)).setText(model.getHospital());
-                    ((TextView)findViewById(R.id.name_d)).setText(model.getLocation());
-                    ((TextView)findViewById(R.id.name_d)).setText(model.getGender());
-                    ((TextView)findViewById(R.id.name_d)).setText(model.getFrom_time() + " - " + model.getTo_time());
-                    ((TextView)findViewById(R.id.name_d)).setText(model.getFees());
-                    ((TextView)findViewById(R.id.name_d)).setText(String.valueOf(model.getContact()));
+                    ((TextView) dialog.findViewById(R.id.name_d)).setText(documentSnapshot.getString("Name"));
+                    ((TextView) dialog.findViewById(R.id.specialization_d)).setText(documentSnapshot.getString("Specialization"));
+                    ((TextView) dialog.findViewById(R.id.hospital_d)).setText(documentSnapshot.getString("Hospital"));
+                    ((TextView) dialog.findViewById(R.id.location_d)).setText(documentSnapshot.getString("Location"));
+                    ((TextView) dialog.findViewById(R.id.gender_d)).setText(documentSnapshot.getString("Gender"));
+                    ((TextView) dialog.findViewById(R.id.timings_d)).setText(documentSnapshot.getString("From_time") + " - " + documentSnapshot.getString("To_time"));
+                    ((TextView) dialog.findViewById(R.id.fees_d)).setText(String.valueOf(documentSnapshot.get("Fees")));
+                    ((TextView) dialog.findViewById(R.id.contact_d)).setText(String.valueOf(documentSnapshot.getLong("Contact")));
+
+                    ((Button) dialog.findViewById(R.id.status)).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            ((Button) dialog.findViewById(R.id.status)).setVisibility(View.GONE);
+                            ((TextView) dialog.findViewById(R.id.date_head)).setVisibility(View.VISIBLE);
+                            ((EditText) dialog.findViewById(R.id.date)).setVisibility(View.VISIBLE);
+                            ((TextView) dialog.findViewById(R.id.time_head)).setVisibility(View.VISIBLE);
+                            ((EditText) dialog.findViewById(R.id.time)).setVisibility(View.VISIBLE);
+                            ((Button) dialog.findViewById(R.id.confirm)).setVisibility(View.VISIBLE);
+                            ((EditText) dialog.findViewById(R.id.date)).setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    //DatePicker datePicker = new DatePicker(BookAppointmentActivity.this);
+                                    //((EditText) dialog.findViewById(R.id.date))
+                                      //      .setText(datePicker.getDayOfMonth() + "" + datePicker.getMonth() + "" + datePicker.getYear());
+
+                                }
+                            });
+                        }
+                    });
 
                     WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
                     lp.copyFrom(dialog.getWindow().getAttributes());

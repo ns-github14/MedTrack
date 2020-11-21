@@ -16,7 +16,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 class RVAdapter extends FirestoreRecyclerAdapter<Doctor_Class, RVAdapter.RVViewHolder> {
 
     private OnItemClickListener listener;
-    //TextView name_d, location_d, specialization_d, hospital_d, gender_d, contact_d, timings_d, fees_d;
 
     public RVAdapter(@NonNull FirestoreRecyclerOptions<Doctor_Class> options){
         super(options);
@@ -27,30 +26,6 @@ class RVAdapter extends FirestoreRecyclerAdapter<Doctor_Class, RVAdapter.RVViewH
         holder.name.setText(model.getName());
         holder.specialization.setText(model.getSpecialization());
         holder.hospital.setText(model.getHospital());
-
-        /*holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final Dialog dialog = new Dialog(ctx);
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.setContentView(R.layout.customview);
-
-                name_d.setText(model.getName());
-                specialization_d.setText(model.getSpecialization());
-                hospital_d.setText(model.getHospital());
-                location_d.setText(model.getLocation());
-                gender_d.setText(model.getGender());
-                timings_d.setText(model.getFrom_time() + " - " + model.getTo_time());
-                fees_d.setText(String.valueOf(model.getFees()));
-                contact_d.setText(String.valueOf(model.getContact()));
-
-                WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-                lp.copyFrom(dialog.getWindow().getAttributes());
-                lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-                dialog.show();
-                dialog.getWindow().setAttributes(lp);
-            }
-        });*/
     }
 
     // Function to tell the class about the Card view (here
@@ -74,14 +49,6 @@ class RVAdapter extends FirestoreRecyclerAdapter<Doctor_Class, RVAdapter.RVViewH
             name = itemView.findViewById(R.id.name);
             specialization = itemView.findViewById(R.id.specialization);
             hospital = itemView.findViewById(R.id.hospital);
-           /* name_d = itemView.findViewById(R.id.name_d);
-            specialization_d = itemView.findViewById(R.id.specialization_d);
-            hospital_d = itemView.findViewById(R.id.hospital_d);
-            timings_d = itemView.findViewById(R.id.timings_d);
-            gender_d = itemView.findViewById(R.id.gender_d);
-            contact_d = itemView.findViewById(R.id.contact_d);
-            location_d = itemView.findViewById(R.id.location_d);
-            fees_d = itemView.findViewById(R.id.fees_d); */
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
