@@ -112,8 +112,7 @@ public class BookAppointmentActivity extends AppCompatActivity {
                                 @Override
                                 public void onClick(View v) {
                                     //DatePicker datePicker = new DatePicker(BookAppointmentActivity.this);
-                                    //((EditText) dialog.findViewById(R.id.date))
-                                      //      .setText(datePicker.getDayOfMonth() + "" + datePicker.getMonth() + "" + datePicker.getYear());
+                                    //((EditText) dialog.findViewById(R.id.date)).setText(datePicker.getDayOfMonth() + "" + datePicker.getMonth() + "" + datePicker.getYear());
 
                                 }
                             });
