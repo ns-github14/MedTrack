@@ -21,9 +21,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.example.blackcoffer_neelanshi.Model.Location.GetAddressIntentService;
+import com.example.blackcoffer_neelanshi.Model.GetAddressIntentService;
 import com.example.blackcoffer_neelanshi.R;
-import com.example.blackcoffer_neelanshi.ViewController.Doctor.ProfileActivity_Doc;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;

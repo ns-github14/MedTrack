@@ -178,6 +178,6 @@ public class MedActivity extends AppCompatActivity implements ActionBar.TabListe
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+        super.onBackPressed();
     }
 }

@@ -13,7 +13,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -22,8 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.example.blackcoffer_neelanshi.Model.Location.GetAddressIntentService;
-import com.example.blackcoffer_neelanshi.Model.Location.MapsActivity;
+import com.example.blackcoffer_neelanshi.Model.GetAddressIntentService;
 import com.example.blackcoffer_neelanshi.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;

@@ -182,7 +182,7 @@ public class BookAppointmentActivity extends AppCompatActivity {
 
                                         AlertDialog.Builder builder = new AlertDialog.Builder(BookAppointmentActivity.this);
                                         ViewGroup viewGroup = findViewById(android.R.id.content);
-                                        View dialogView = LayoutInflater.from(v.getContext()).inflate(R.layout.activity_booking_done, viewGroup, false);
+                                        View dialogView = LayoutInflater.from(v.getContext()).inflate(R.layout.customdialog_booking, viewGroup, false);
                                         builder.setView(dialogView);
                                         AlertDialog alertDialog = builder.create();
                                         ((Button) alertDialog.findViewById(R.id.buttonOk)).setOnClickListener(new View.OnClickListener() {

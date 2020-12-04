@@ -1,31 +1,22 @@
 package com.example.blackcoffer_neelanshi.ViewController.Doctor;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.text.Html;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.blackcoffer_neelanshi.R;
 import com.example.blackcoffer_neelanshi.ViewController.Doctor.adapter.ViewPagerAdapter;
 import com.example.blackcoffer_neelanshi.ViewController.Login.LoginActivity;
-import com.example.blackcoffer_neelanshi.ViewController.Patient.adapter.TabsAdapter;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,9 +25,7 @@ import java.util.Map;
 
 public class HomeActivity_Doc extends AppCompatActivity {
 
-    Button b1;
     private FirebaseAuth auth;
-    private FirebaseFirestore medtrack;
     String email;
     ViewPager2 viewPager;
 
@@ -46,8 +35,10 @@ public class HomeActivity_Doc extends AppCompatActivity {
         setContentView(R.layout.home_doctor);
 
         auth = FirebaseAuth.getInstance();
-        medtrack = FirebaseFirestore.getInstance();
         email = auth.getCurrentUser().getEmail();
+
+        androidx.appcompat.widget.Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         viewPager = findViewById(R.id.viewPager);
         List<Map<String, Object>> mapList = new ArrayList<>();
@@ -84,7 +75,7 @@ public class HomeActivity_Doc extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_main_doc, menu);
         return true;
     }
 
@@ -103,10 +94,6 @@ public class HomeActivity_Doc extends AppCompatActivity {
             return true;
         }
 
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
         if(id == R.id.action_logout) {
             auth.signOut();
             startActivity(new Intent(getApplicationContext(), LoginActivity.class));
@@ -116,47 +103,9 @@ public class HomeActivity_Doc extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
-    /*public void onStatus(View v) {
-        if(b1.getText() == "Pending") {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Appointment Status");
-            builder.setMessage("Confirm this appointment?");
-            builder.setPositiveButton("OK",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            b1.setBackgroundResource(R.color.Cyan);
-                            b1.setText("Confirmed");
-                        }
-                    });
-            builder.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    Toast.makeText(getApplicationContext(),
-                            android.R.string.no, Toast.LENGTH_SHORT).show();
-                }
-            });
-            builder.setCancelable(false);
-            builder.show();
-        }
-        else{
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Appointment Status");
-            builder.setMessage("Cancel this appointment?");
-            builder.setPositiveButton("OK",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            b1.setBackgroundResource(R.color.dark_gray);
-                            b1.setText("Pending");
-                        }
-                    });
-            builder.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    Toast.makeText(getApplicationContext(),
-                            android.R.string.no, Toast.LENGTH_SHORT).show();
-                }
-            });
-            builder.setCancelable(false);
-            builder.show();
-        }
-    }*/
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
 }

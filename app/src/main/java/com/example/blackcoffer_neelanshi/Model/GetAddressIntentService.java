@@ -1,4 +1,4 @@
-package com.example.blackcoffer_neelanshi.Model.Location;
+package com.example.blackcoffer_neelanshi.Model;
 
 import android.app.IntentService;
 import android.content.Intent;
