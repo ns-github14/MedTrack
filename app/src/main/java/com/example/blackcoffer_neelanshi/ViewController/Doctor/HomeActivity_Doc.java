@@ -1,34 +1,44 @@
 package com.example.blackcoffer_neelanshi.ViewController.Doctor;
 
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Html;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
+import android.widget.TextView;
 
-import androidx.appcompat.app.AlertDialog;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.blackcoffer_neelanshi.R;
-import com.example.blackcoffer_neelanshi.ViewController.Login.Launcher;
+import com.example.blackcoffer_neelanshi.ViewController.Doctor.adapter.ViewPagerAdapter;
 import com.example.blackcoffer_neelanshi.ViewController.Login.LoginActivity;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
+import com.example.blackcoffer_neelanshi.ViewController.Patient.adapter.TabsAdapter;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class HomeActivity_Doc extends AppCompatActivity{
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-    ConstraintLayout ll1, ll2;
-    Button b1, b2, b3;
+public class HomeActivity_Doc extends AppCompatActivity {
+
+    Button b1;
     private FirebaseAuth auth;
     private FirebaseFirestore medtrack;
     String email;
+    ViewPager2 viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,15 +49,36 @@ public class HomeActivity_Doc extends AppCompatActivity{
         medtrack = FirebaseFirestore.getInstance();
         email = auth.getCurrentUser().getEmail();
 
-        b1 = findViewById(R.id.status);
+        viewPager = findViewById(R.id.viewPager);
+        List<Map<String, Object>> mapList = new ArrayList<>();
 
-        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener((View view) -> {
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show();
-        });
+        Map<String, Object> tab1 = setTabTitleAndFragment("Requests", new RequestFragment());
+        Map<String, Object> tab2 = setTabTitleAndFragment("Pending", new PendingFragment());
+        Map<String, Object> tab3 = setTabTitleAndFragment("Confirmed", new ConfirmedFragment());
+
+        mapList.add(tab1);
+        mapList.add(tab2);
+        mapList.add(tab3);
+
+        final ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(this, mapList);
+        viewPager.setAdapter(viewPagerAdapter);
+
+        TabLayout tabLayout = findViewById(R.id.tabLayout);
+
+        new TabLayoutMediator(tabLayout, viewPager, new TabLayoutMediator.TabConfigurationStrategy() {
+            @Override
+            public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
+                tab.setText(viewPagerAdapter.getTitle(position));
+            }
+        }).attach();
+    }
+
+    Map<String, Object> setTabTitleAndFragment(String title, Fragment fragment) {
+
+        Map<String, Object> fragmentwithTitleMap = new HashMap<>();
+        fragmentwithTitleMap.put("fragmentTitle", title);
+        fragmentwithTitleMap.put("fragment", fragment);
+        return fragmentwithTitleMap;
     }
 
     @Override
@@ -85,7 +116,8 @@ public class HomeActivity_Doc extends AppCompatActivity{
         return super.onOptionsItemSelected(item);
     }
 
-    public void onStatus(View v) {
+
+    /*public void onStatus(View v) {
         if(b1.getText() == "Pending") {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Appointment Status");
@@ -126,5 +158,5 @@ public class HomeActivity_Doc extends AppCompatActivity{
             builder.setCancelable(false);
             builder.show();
         }
-    }
+    }*/
 }

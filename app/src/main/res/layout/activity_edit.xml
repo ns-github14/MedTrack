@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ViewController.EditActivity">
+    tools:context=".ViewController.Patient.Alarm.EditActivity">
 
     <ScrollView
         android:layout_width="wrap_content"
@@ -36,7 +36,6 @@
                 android:ellipsize="end"
                 android:singleLine="true"
                 android:gravity="center"
-                android:background="@drawable/blue_textfield_activated_holo_light"
                 android:hint="@string/pill_name" />
 
             <TextView android:id="@+id/time_title"
@@ -84,7 +83,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="8dp">
 
-                <com.example.blackcoffer_neelanshi.ViewController.CustomCheckBox
+                <com.example.blackcoffer_neelanshi.ViewController.Patient.Alarm.CustomCheckBox
                     android:id="@+id/checkbox_monday"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -95,7 +94,7 @@
                     android:padding="1dp"
                     android:gravity="center"/>
 
-                <com.example.blackcoffer_neelanshi.ViewController.CustomCheckBox
+                <com.example.blackcoffer_neelanshi.ViewController.Patient.Alarm.CustomCheckBox
                     android:id="@+id/checkbox_tuesday"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -106,7 +105,7 @@
                     android:padding="1dp"
                     android:gravity="center"/>
 
-                <com.example.blackcoffer_neelanshi.ViewController.CustomCheckBox
+                <com.example.blackcoffer_neelanshi.ViewController.Patient.Alarm.CustomCheckBox
                     android:id="@+id/checkbox_wednesday"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -117,7 +116,7 @@
                     android:padding="1dp"
                     android:gravity="center"/>
 
-                <com.example.blackcoffer_neelanshi.ViewController.CustomCheckBox
+                <com.example.blackcoffer_neelanshi.ViewController.Patient.Alarm.CustomCheckBox
                     android:id="@+id/checkbox_thursday"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -128,7 +127,7 @@
                     android:padding="1dp"
                     android:gravity="center"/>
 
-                <com.example.blackcoffer_neelanshi.ViewController.CustomCheckBox
+                <com.example.blackcoffer_neelanshi.ViewController.Patient.Alarm.CustomCheckBox
                     android:id="@+id/checkbox_friday"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -139,7 +138,7 @@
                     android:padding="1dp"
                     android:gravity="center"/>
 
-                <com.example.blackcoffer_neelanshi.ViewController.CustomCheckBox
+                <com.example.blackcoffer_neelanshi.ViewController.Patient.Alarm.CustomCheckBox
                     android:id="@+id/checkbox_saturday"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -150,7 +149,7 @@
                     android:padding="1dp"
                     android:gravity="center"/>
 
-                <com.example.blackcoffer_neelanshi.ViewController.CustomCheckBox
+                <com.example.blackcoffer_neelanshi.ViewController.Patient.Alarm.CustomCheckBox
                     android:id="@+id/checkbox_sunday"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"

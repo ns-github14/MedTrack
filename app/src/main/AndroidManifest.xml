@@ -9,19 +9,19 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ViewController.BookAppointmentActivity"></activity>
+        <activity android:name=".ViewController.Patient.Appointment.BookAppointmentActivity" />
         <activity
-            android:name=".ViewController.AddActivity"
+            android:name=".ViewController.Patient.Alarm.AddActivity"
             android:label="@string/title_activity_add"
-            android:parentActivityName=".ViewController.MedActivity">
+            android:parentActivityName=".ViewController.Patient.MedActivity">
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ViewController.MedActivity" />
+                android:value=".ViewController.Patient.MedActivity" />
         </activity>
         <activity
-            android:name=".ViewController.AlertActivity"
+            android:name=".ViewController.Patient.Alarm.AlertActivity"
             android:label="@string/title_activity_alert"
             android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen">
             <intent-filter>
@@ -31,23 +31,34 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ViewController.MedActivity"
+            android:name=".ViewController.AlertNotif"
+            android:label="Notification" />
+        <activity
+            android:name=".ViewController.NotificationView"
+            android:label="Notification View"
+            android:parentActivityName=".ViewController.Patient.Alarm.AlertActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ViewController.Patient.Alarm.AlertActivity" />
+        </activity>
+        <activity
+            android:name=".ViewController.Patient.MedActivity"
             android:label="@string/app_name" />
         <activity
-            android:name=".ViewController.PillBoxActivity"
+            android:name=".ViewController.Patient.Alarm.PillBoxActivity"
             android:label="@string/title_activity_edit" />
         <activity
-            android:name=".ViewController.ScheduleActivity"
+            android:name=".ViewController.Patient.Alarm.ScheduleActivity"
             android:label="@string/title_activity_setting"
-            android:parentActivityName=".ViewController.MedActivity">
+            android:parentActivityName=".ViewController.Patient.MedActivity">
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ViewController.MedActivity" />
+                android:value=".ViewController.Patient.MedActivity" />
         </activity>
         <activity
-            android:name=".ViewController.EditActivity"
+            android:name=".ViewController.Patient.Alarm.EditActivity"
             android:label="@string/title_activity_edit" />
         <activity android:name=".ViewController.Patient.ProfileActivity" />
         <activity android:name=".ViewController.Doctor.ProfileActivity_Doc" />
@@ -110,10 +121,10 @@
             android:enabled="true"
             android:exported="true" />
     </application>
-    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

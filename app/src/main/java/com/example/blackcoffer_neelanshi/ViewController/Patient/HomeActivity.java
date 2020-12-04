@@ -9,19 +9,25 @@ import android.view.animation.Animation;
 import android.view.animation.Transformation;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.viewpager.widget.ViewPager;
 
-import com.example.blackcoffer_neelanshi.ViewController.BookAppointmentActivity;
 import com.example.blackcoffer_neelanshi.R;
 import com.example.blackcoffer_neelanshi.Model.Add_a_med.RecordActivity;
 import com.example.blackcoffer_neelanshi.ViewController.Login.LoginActivity;
-import com.example.blackcoffer_neelanshi.ViewController.MedActivity;
-import com.example.blackcoffer_neelanshi.ViewController.adapter.TabsAdapter;
+import com.example.blackcoffer_neelanshi.ViewController.Patient.Appointment.BookAppointmentActivity;
+import com.example.blackcoffer_neelanshi.ViewController.Patient.adapter.TabsAdapter;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
     ConstraintLayout ll1, ll2;
@@ -100,6 +106,20 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         switch(v.getId()){
             case R.id.my_appointment: //collapse(ll2);
                                       expand(ll1);
+                                      FirebaseFirestore.getInstance().collection("Appointments").whereEqualTo("Patient", email).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                          @Override
+                                          public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                            if(task.isSuccessful()){
+                                                for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+                                                    ((TextView) findViewById(R.id.text1)).setText("Appointment with " + documentSnapshot.get("Doctor") + " on " + documentSnapshot.get("Date") + " at " + documentSnapshot.get("Time") + "\nStatus is " + documentSnapshot.get("Status") + "\n\n");
+                                                }
+                                            }
+                                            else {
+                                                ((TextView) findViewById(R.id.text1)).setText("No scheduled appointments.");
+                                                ((Button) findViewById(R.id.more1)).setVisibility(View.GONE);
+                                            }
+                                          }
+                                      });
                                       break;
             case R.id.my_schedule:    collapse(ll1);
                                       //expand(ll2);
