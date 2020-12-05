@@ -4,46 +4,20 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.Transformation;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.viewpager.widget.ViewPager;
-import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.blackcoffer_neelanshi.R;
-import com.example.blackcoffer_neelanshi.Model.Add_a_med.RecordActivity;
-import com.example.blackcoffer_neelanshi.ViewController.Doctor.ConfirmedFragment;
-import com.example.blackcoffer_neelanshi.ViewController.Doctor.PendingFragment;
-import com.example.blackcoffer_neelanshi.ViewController.Doctor.RequestFragment;
-import com.example.blackcoffer_neelanshi.ViewController.Doctor.adapter.ViewPagerAdapter;
 import com.example.blackcoffer_neelanshi.ViewController.Login.LoginActivity;
-import com.example.blackcoffer_neelanshi.ViewController.Patient.Alarm.AddActivity;
+import com.example.blackcoffer_neelanshi.ViewController.Patient.Alarm.MedSchedFragment;
+import com.example.blackcoffer_neelanshi.ViewController.Patient.Appointment.AppFragment;
 import com.example.blackcoffer_neelanshi.ViewController.Patient.Appointment.BookAppointmentActivity;
-import com.example.blackcoffer_neelanshi.ViewController.Patient.adapter.TabsAdapter;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -64,8 +38,6 @@ public class HomeActivity extends AppCompatActivity {
         BottomNavigationView bottomNav = findViewById(R.id.bottomNav);
 
         openFragment(new AppFragment());
-
-
 
         bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
