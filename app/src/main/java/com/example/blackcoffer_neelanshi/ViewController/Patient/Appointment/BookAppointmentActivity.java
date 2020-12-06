@@ -26,7 +26,7 @@ import android.widget.Toast;
 
 import com.example.blackcoffer_neelanshi.R;
 import com.example.blackcoffer_neelanshi.ViewController.Patient.HomeActivity;
-import com.example.blackcoffer_neelanshi.ViewController.Patient.adapter.RVAdapter;
+import com.example.blackcoffer_neelanshi.ViewController.Patient.adapter.RVAdapter_Doctor_Class;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -43,7 +43,7 @@ import java.util.Map;
 public class BookAppointmentActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
-    RVAdapter adapter;
+    RVAdapter_Doctor_Class adapter;
     Query base;
     private ProgressBar progressBar;
     private int mYear, mMonth, mDay, mHour, mMinute;
@@ -59,12 +59,12 @@ public class BookAppointmentActivity extends AppCompatActivity {
 
         FirestoreRecyclerOptions<Doctor_Class> options = new FirestoreRecyclerOptions.Builder<Doctor_Class>().setQuery(base, Doctor_Class.class).build();
 
-        adapter = new RVAdapter(options);
+        adapter = new RVAdapter_Doctor_Class(options);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
         recyclerView.setAdapter(adapter);
 
-        adapter.setOnItemClickListener(new RVAdapter.OnItemClickListener() {
+        adapter.setOnItemClickListener(new RVAdapter_Doctor_Class.OnItemClickListener() {
             @Override
             public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
                 String path = documentSnapshot.getReference().getPath();

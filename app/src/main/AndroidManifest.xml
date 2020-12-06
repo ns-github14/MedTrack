@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.blackcoffer_neelanshi">
+    package="com.example.blackcoffer_neelanshi" >
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -8,82 +13,65 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme" >
+        <!--<activity
+            android:name=".ViewController.nav"
+            android:label="@string/title_activity_nav"
+            android:theme="@style/AppTheme.NoActionBar" >-->
 
-        <activity
-            android:name=".ViewController.Patient.Appointment.BookAppointmentActivity" />
-
+        <activity android:name=".ViewController.Patient.Appointment.BookAppointmentActivity" />
         <activity
             android:name=".ViewController.Patient.Alarm.AddActivity"
             android:label="@string/title_activity_add"
-            android:parentActivityName=".ViewController.Patient.MedActivity">
+            android:parentActivityName=".ViewController.Patient.MedActivity" >
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ViewController.Patient.MedActivity" />
-
         </activity>
-
         <activity
             android:name=".ViewController.Patient.Alarm.AlertActivity"
             android:label="@string/title_activity_alert"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen">
-
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" >
             <intent-filter>
                 <action android:name=".Alertactivity" />
 
                 <category android:name="android.intent.category.DEFAULT" />
-
             </intent-filter>
-
         </activity>
-
         <activity
             android:name=".ViewController.AlertNotif"
             android:label="Notification" />
-
         <activity
             android:name=".ViewController.NotificationView"
             android:label="Notification View"
-            android:parentActivityName=".ViewController.Patient.Alarm.AlertActivity">
-
+            android:parentActivityName=".ViewController.Patient.Alarm.AlertActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ViewController.Patient.Alarm.AlertActivity" />
-
         </activity>
-
         <activity
             android:name=".ViewController.Patient.MedActivity"
             android:label="@string/app_name" />
-
         <activity
             android:name=".ViewController.Patient.Alarm.PillBoxActivity"
             android:label="@string/title_activity_edit" />
-
         <activity
             android:name=".ViewController.Patient.Alarm.ScheduleActivity"
             android:label="@string/title_activity_setting"
-            android:parentActivityName=".ViewController.Patient.MedActivity">
+            android:parentActivityName=".ViewController.Patient.MedActivity" >
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ViewController.Patient.MedActivity" />
-
         </activity>
-
         <activity
             android:name=".ViewController.Patient.Alarm.EditActivity"
             android:label="@string/title_activity_edit" />
-
-        <activity
-            android:name=".ViewController.Patient.ProfileActivity" />
-
-        <activity
-            android:name=".ViewController.Doctor.ProfileActivity_Doc" />
-
+        <activity android:name=".ViewController.Patient.ProfileActivity" />
+        <activity android:name=".ViewController.Doctor.ProfileActivity_Doc" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -92,14 +80,11 @@
              sign the APK for publishing.
              You can define the keys for the debug and release targets in src/debug/ and src/release/.
         -->
-        <activity
-            android:name=".Model.Add_a_med.RecordActivity" />
-
+        <activity android:name=".Model.Add_a_med.RecordActivity" />
         <activity
             android:name=".ViewController.Patient.HomeActivity"
             android:label="@string/title_activity_home"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".ViewController.Doctor.HomeActivity_Doc"
             android:label="@string/title_activity_home"
@@ -114,21 +99,17 @@
         -->
         <activity
             android:name=".ViewController.Login.Launcher"
-            android:theme="@style/AppTheme.NoActionBar">
-
+            android:theme="@style/AppTheme.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
-
         <activity
             android:name=".ViewController.Login.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".ViewController.Login.SignupActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -142,20 +123,10 @@
         <service
             android:name=".Model.GetAddressIntentService"
             android:exported="false" />
-
         <service
             android:name=".Model.Add_a_med.AlarmService"
             android:enabled="true"
             android:exported="true" />
-
     </application>
-
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-
-    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

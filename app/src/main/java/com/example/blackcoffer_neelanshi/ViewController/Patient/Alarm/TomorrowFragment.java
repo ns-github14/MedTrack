@@ -51,16 +51,16 @@ public class TomorrowFragment extends Fragment {
         List<Alarm> alarms = Collections.emptyList();
 
         try {
-            alarms = pillBox.getAlarms(container.getContext(), day);
+            alarms = pillBox.getAlarms(getActivity(), day);
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
 
         if(alarms.size() != 0) {
             for(Alarm alarm: alarms) {
-                TableRow tbrow = new TableRow(container.getContext());
+                TableRow tbrow = new TableRow(getActivity());
 
-                TextView t1v = new TextView(container.getContext());
+                TextView t1v = new TextView(getActivity());
                 t1v.setText(alarm.getPillName());
                 //t1v.setTextColor(Color.WHITE);
                 t1v.setGravity(Gravity.CENTER);
@@ -69,7 +69,7 @@ public class TomorrowFragment extends Fragment {
                 //t1v.setTypeface(lightFont);
                 tbrow.addView(t1v);
 
-                TextView t2v = new TextView(container.getContext());
+                TextView t2v = new TextView(getActivity());
 
                 String time = alarm.getStringTime();
 
@@ -84,9 +84,9 @@ public class TomorrowFragment extends Fragment {
                 stk.addView(tbrow);
             }
         } else {
-            TableRow tbrow = new TableRow(container.getContext());
+            TableRow tbrow = new TableRow(getActivity());
 
-            TextView t1v = new TextView(container.getContext());
+            TextView t1v = new TextView(getActivity());
             t1v.setText("You don't have any alarms for Tomorrow!");
             //t1v.setTextColor(Color.WHITE);
             t1v.setGravity(Gravity.CENTER);

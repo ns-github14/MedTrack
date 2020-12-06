@@ -1,6 +1,5 @@
 package com.example.blackcoffer_neelanshi.ViewController.Doctor;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,22 +14,17 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.example.blackcoffer_neelanshi.Model.Appointment_Class;
 import com.example.blackcoffer_neelanshi.R;
 import com.example.blackcoffer_neelanshi.ViewController.Doctor.adapter.RVAdapter;
-import com.example.blackcoffer_neelanshi.ViewController.Patient.Appointment.BookAppointmentActivity;
-import com.example.blackcoffer_neelanshi.ViewController.Patient.HomeActivity;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-
-import java.util.List;
 
 public class RequestFragment extends Fragment {
 

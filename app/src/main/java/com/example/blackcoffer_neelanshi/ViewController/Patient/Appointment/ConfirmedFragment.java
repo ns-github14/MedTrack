@@ -18,26 +18,21 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.blackcoffer_neelanshi.R;
-import com.example.blackcoffer_neelanshi.ViewController.Doctor.Appointment_Class;
-import com.example.blackcoffer_neelanshi.ViewController.Doctor.HomeActivity_Doc;
-import com.example.blackcoffer_neelanshi.ViewController.Doctor.adapter.RVAdapter;
+import com.example.blackcoffer_neelanshi.Model.Appointment_Class;
+import com.example.blackcoffer_neelanshi.ViewController.Patient.HomeActivity;
+import com.example.blackcoffer_neelanshi.ViewController.Patient.adapter.RVAdapter_App_Class;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ConfirmedFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class ConfirmedFragment extends Fragment {
 
     public ConfirmedFragment() {}
 
     RecyclerView recyclerView;
-    RVAdapter adapter;
+    RVAdapter_App_Class adapter;
     ProgressBar progressBar;
 
     @Override
@@ -48,17 +43,17 @@ public class ConfirmedFragment extends Fragment {
 
         recyclerView = view.findViewById(R.id.r);
 
-        Query base = FirebaseFirestore.getInstance().collection("Appointments").whereEqualTo("Patient", FirebaseAuth.getInstance().getCurrentUser().getEmail()).whereEqualTo("Status", "Requested");
+        Query base = FirebaseFirestore.getInstance().collection("Appointments").whereEqualTo("Patient_Email", FirebaseAuth.getInstance().getCurrentUser().getEmail()).whereEqualTo("Status", "Confirmed");
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         FirestoreRecyclerOptions<Appointment_Class> options = new FirestoreRecyclerOptions.Builder<Appointment_Class>().setQuery(base, Appointment_Class.class).build();
 
-        adapter = new RVAdapter(options);
+        adapter = new RVAdapter_App_Class(options);
 
         recyclerView.setAdapter(adapter);
 
-        adapter.setOnItemClickListener(new RVAdapter.OnItemClickListener() {
+        adapter.setOnItemClickListener(new RVAdapter_App_Class.OnItemClickListener() {
             @Override
             public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
                 String path = documentSnapshot.getReference().getPath();
@@ -75,7 +70,7 @@ public class ConfirmedFragment extends Fragment {
                         progressBar.setVisibility(View.VISIBLE);
                         FirebaseFirestore.getInstance().document(path).update("Status", "Pending");
                         progressBar.setVisibility(View.GONE);
-                        startActivity(new Intent(getContext(), HomeActivity_Doc.class));
+                        startActivity(new Intent(getContext(), HomeActivity.class));
                     }
                 });
 

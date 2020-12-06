@@ -11,8 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.blackcoffer_neelanshi.R;
-import com.example.blackcoffer_neelanshi.ViewController.Doctor.PendingFragment;
-import com.example.blackcoffer_neelanshi.ViewController.Doctor.RequestFragment;
 import com.example.blackcoffer_neelanshi.ViewController.Doctor.adapter.ViewPagerAdapter;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
@@ -40,9 +38,9 @@ public class MedSchedFragment extends Fragment {
         viewPager = view.findViewById(R.id.viewPager);
         List<Map<String, Object>> mapList = new ArrayList<>();
 
-        Map<String, Object> tab1 = setTabTitleAndFragment("History", new RequestFragment());
-        Map<String, Object> tab2 = setTabTitleAndFragment("Today", new PendingFragment());
-        Map<String, Object> tab3 = setTabTitleAndFragment("Tomorrow", new PendingFragment());
+        Map<String, Object> tab1 = setTabTitleAndFragment("History", new HistoryFragment());
+        Map<String, Object> tab2 = setTabTitleAndFragment("Today", new TodayFragment());
+        Map<String, Object> tab3 = setTabTitleAndFragment("Tomorrow", new TomorrowFragment());
 
         mapList.add(tab1);
         mapList.add(tab2);

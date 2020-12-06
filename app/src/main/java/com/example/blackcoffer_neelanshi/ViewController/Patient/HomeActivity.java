@@ -11,6 +11,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.blackcoffer_neelanshi.Model.Add_a_med.RecordActivity;
 import com.example.blackcoffer_neelanshi.R;
 import com.example.blackcoffer_neelanshi.ViewController.Login.LoginActivity;
 import com.example.blackcoffer_neelanshi.ViewController.Patient.Alarm.MedSchedFragment;
@@ -95,7 +96,7 @@ public class HomeActivity extends AppCompatActivity {
 
         if(id == R.id.action_logout) {
             auth.signOut();
-            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+            startActivity(new Intent(getApplicationContext(), RecordActivity.class));
             return true;
         }
 

@@ -1,4 +1,4 @@
-package com.example.blackcoffer_neelanshi.ViewController.Doctor;
+package com.example.blackcoffer_neelanshi.Model;
 
 public class Appointment_Class {
     private String Patient, Patient_Email, Date, Time, Status, Description;

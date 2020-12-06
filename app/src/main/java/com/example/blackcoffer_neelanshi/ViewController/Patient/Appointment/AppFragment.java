@@ -11,8 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.blackcoffer_neelanshi.R;
-import com.example.blackcoffer_neelanshi.ViewController.Doctor.PendingFragment;
-import com.example.blackcoffer_neelanshi.ViewController.Doctor.RequestFragment;
 import com.example.blackcoffer_neelanshi.ViewController.Doctor.adapter.ViewPagerAdapter;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
@@ -42,7 +40,7 @@ public class AppFragment extends Fragment {
 
         Map<String, Object> tab1 = setTabTitleAndFragment("Requests", new RequestFragment());
         Map<String, Object> tab2 = setTabTitleAndFragment("Pending", new PendingFragment());
-        Map<String, Object> tab3 = setTabTitleAndFragment("Confirmed", new PendingFragment());
+        Map<String, Object> tab3 = setTabTitleAndFragment("Confirmed", new ConfirmedFragment());
 
         mapList.add(tab1);
         mapList.add(tab2);

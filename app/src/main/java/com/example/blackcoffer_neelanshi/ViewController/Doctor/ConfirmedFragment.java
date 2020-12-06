@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 
+import com.example.blackcoffer_neelanshi.Model.Appointment_Class;
 import com.example.blackcoffer_neelanshi.R;
 import com.example.blackcoffer_neelanshi.ViewController.Doctor.adapter.RVAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;

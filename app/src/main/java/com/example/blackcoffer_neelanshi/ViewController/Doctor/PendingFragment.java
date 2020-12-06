@@ -14,10 +14,10 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.blackcoffer_neelanshi.Model.Appointment_Class;
 import com.example.blackcoffer_neelanshi.R;
 import com.example.blackcoffer_neelanshi.ViewController.Doctor.adapter.RVAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;

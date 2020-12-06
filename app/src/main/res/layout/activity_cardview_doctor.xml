@@ -43,7 +43,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/image"
             app:layout_constraintBottom_toTopOf="@id/specialization"
-            android:textSize="20dp" />
+            android:textSize="18dp" />
 
         <TextView
             android:id="@+id/specialization"
@@ -51,12 +51,12 @@
             android:layout_height="wrap_content"
             android:hint="specialization"
             android:layout_marginLeft="10dp"
-            android:textSize="15dp"
+            android:textSize="13dp"
             android:textColor="#000"
             app:layout_constraintStart_toEndOf="@+id/image"
-            app:layout_constraintEnd_toStartOf="@+id/at"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/name"
-            app:layout_constraintBottom_toTopOf="@id/location" />
+            app:layout_constraintBottom_toTopOf="@id/hospital" />
 
         <TextView
             android:layout_width="0dp"
@@ -66,20 +66,8 @@
             android:layout_marginLeft="10dp"
             app:layout_constraintStart_toEndOf="@id/image"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/specialization"
+            app:layout_constraintTop_toBottomOf="@id/hospital"
             app:layout_constraintBottom_toBottomOf="@id/image"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/at"
-            android:layout_marginRight="5dp"
-            android:layout_marginLeft="5dp"
-            android:text="at"
-            app:layout_constraintEnd_toStartOf="@+id/hospital"
-            app:layout_constraintStart_toEndOf="@+id/specialization"
-            app:layout_constraintTop_toBottomOf="@+id/name"
-            app:layout_constraintBottom_toTopOf="@id/location"/>
 
         <TextView
             android:id="@+id/hospital"
@@ -87,10 +75,11 @@
             android:layout_height="wrap_content"
             android:hint="Hospital"
             android:textSize="15dp"
+            android:layout_marginLeft="10dp"
             android:textColor="#000"
-            app:layout_constraintStart_toEndOf="@+id/at"
+            app:layout_constraintStart_toEndOf="@+id/image"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/name"
+            app:layout_constraintTop_toBottomOf="@id/specialization"
             app:layout_constraintBottom_toTopOf="@id/location" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

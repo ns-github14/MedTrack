@@ -34,23 +34,23 @@ public class HistoryFragment extends Fragment {
 
         TableLayout stk = (TableLayout) rootView.findViewById(R.id.table_history);
 
-        TableRow tbrow0 = new TableRow(container.getContext());
+        TableRow tbrow0 = new TableRow(getActivity());
 
-        TextView tt1 = new TextView(container.getContext());
+        TextView tt1 = new TextView(getActivity());
         tt1.setText("Pill Name");
         //tt1.setTextColor(Color.WHITE);
         tt1.setGravity(Gravity.CENTER);
         tt1.setTypeface(null, Typeface.BOLD);
         tbrow0.addView(tt1);
 
-        TextView tt2 = new TextView(container.getContext());
+        TextView tt2 = new TextView(getActivity());
         tt2.setText("Date Taken");
         //tt2.setTextColor(Color.WHITE);
         tt2.setGravity(Gravity.CENTER);
         tt2.setTypeface(null, Typeface.BOLD);
         tbrow0.addView(tt2);
 
-        TextView tt3 = new TextView(container.getContext());
+        TextView tt3 = new TextView(getActivity());
         tt3.setText("Time Taken");
         //tt3.setTextColor(Color.WHITE);
         tt3.setGravity(Gravity.CENTER);
@@ -61,24 +61,24 @@ public class HistoryFragment extends Fragment {
 
         PillBox pillBox = new PillBox();
 
-        for (History history: pillBox.getHistory(container.getContext())){
-            TableRow tbrow = new TableRow(container.getContext());
+        for (History history: pillBox.getHistory(getActivity())){
+            TableRow tbrow = new TableRow(getActivity());
 
-            TextView t1v = new TextView(container.getContext());
+            TextView t1v = new TextView(getActivity());
             t1v.setText(history.getPillName());
             //t1v.setTextColor(Color.WHITE);
             t1v.setGravity(Gravity.CENTER);
             t1v.setMaxEms(4);
             tbrow.addView(t1v);
 
-            TextView t2v = new TextView(container.getContext());
+            TextView t2v = new TextView(getActivity());
             String date = history.getDateString();
             t2v.setText(date);
             //t2v.setTextColor(Color.WHITE);
             t2v.setGravity(Gravity.CENTER);
             tbrow.addView(t2v);
 
-            TextView t3v = new TextView(container.getContext());
+            TextView t3v = new TextView(getActivity());
 
             int nonMilitaryHour = history.getHourTaken() % 12;
             if (nonMilitaryHour == 0)
