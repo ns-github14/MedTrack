@@ -10,19 +10,31 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.blackcoffer_neelanshi.Model.GetAddressIntentService;
 import com.example.blackcoffer_neelanshi.R;
+import com.example.blackcoffer_neelanshi.ViewController.Login.LoginActivity;
+import com.example.blackcoffer_neelanshi.ViewController.Patient.Alarm.AddActivity;
+import com.example.blackcoffer_neelanshi.ViewController.Patient.Alarm.PillBoxActivity;
+import com.example.blackcoffer_neelanshi.ViewController.Patient.Alarm.ScheduleActivity;
+import com.example.blackcoffer_neelanshi.ViewController.Patient.Appointment.BookAppointmentActivity;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -31,6 +43,8 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -68,12 +82,12 @@ public class ProfileActivity extends AppCompatActivity {
                     DocumentSnapshot doc = task.getResult();
                     ((EditText) (findViewById(R.id.editTextTextPersonName))).setText(doc.getString("Name"));
                     ((EditText) (findViewById(R.id.editTextTextEmailAddress))).setText(email);
-                    ((EditText) (findViewById(R.id.editTextPhone))).setText(doc.getLong("Contact").toString());
+                    ((EditText) (findViewById(R.id.editTextPhone))).setText(doc.getString("Contact"));
                     ((EditText) (findViewById(R.id.editTextTextPostalAddress))).setText(doc.getString("Location"));
-                    ((EditText) (findViewById(R.id.editTextNumber))).setText(doc.getLong("Age").toString());
+                    ((EditText) (findViewById(R.id.editTextNumber))).setText(doc.getString("Age"));
                     ((EditText) (findViewById(R.id.editTextTextPersonName2))).setText(doc.getString("Gender"));
-                    ((EditText) (findViewById(R.id.editTextNumber2))).setText(doc.getLong("Height").toString());
-                    ((EditText) (findViewById(R.id.editTextNumber3))).setText(doc.getLong("Weight").toString());
+                    ((EditText) (findViewById(R.id.editTextNumber2))).setText(doc.getString("Height"));
+                    ((EditText) (findViewById(R.id.editTextNumber3))).setText(doc.getString("Weight"));
                     ((EditText) (findViewById(R.id.editTextTextPersonName3))).setText(doc.getString("Caretaker"));
                     ((EditText) (findViewById(R.id.editTextTextMultiLine))).setText(doc.getString("Medical History"));
                 }
@@ -153,8 +167,13 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
     private void showResults(String currentAdd) {
-        if(((EditText) (findViewById(R.id.editTextTextPostalAddress))).getText().toString() != currentAdd) {
-            Toast.makeText(ProfileActivity.this, "Different Location", Toast.LENGTH_LONG).show();
+        String city = currentAdd.substring(0, currentAdd.indexOf(','));
+        String state = currentAdd.substring(currentAdd.indexOf(','));
+        String prevadd = ((EditText) findViewById(R.id.editTextTextPostalAddress)).getText().toString();
+        String prevcity = prevadd.substring(0, prevadd.indexOf(','));
+        String prevstate = prevadd.substring(prevadd.indexOf(','));
+        if((city != prevcity) || (state != prevstate)) {
+            Toast.makeText(ProfileActivity.this, "Different Location not " + prevadd + "/" + prevcity, Toast.LENGTH_LONG).show();
             AlertDialog.Builder builder = new AlertDialog.Builder(ProfileActivity.this);
             builder.setTitle("Different Location Detected");
             builder.setMessage("Your Location is: " + currentAdd);
@@ -163,7 +182,7 @@ public class ProfileActivity extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             //write to database
                             ((EditText) (findViewById(R.id.editTextTextPostalAddress))).setText(currentAdd);
-                            medtrack.collection("Doctors").document(email)
+                            medtrack.collection("Patients").document(email)
                                     .update("Location", currentAdd);
                         }
                     });
@@ -251,7 +270,7 @@ public class ProfileActivity extends AppCompatActivity {
             (findViewById(R.id.editTextTextPostalAddress)).setFocusableInTouchMode(bool);
             ((EditText) (findViewById(R.id.editTextTextPostalAddress))).setCursorVisible(bool);
 
-            upd.put("Contact", (Integer.parseInt(((EditText)findViewById(R.id.editTextPhone)).getText().toString())));
+            upd.put("Contact", ((EditText)findViewById(R.id.editTextPhone)).getText().toString());
             (findViewById(R.id.editTextPhone)).setFocusable(bool);
             (findViewById(R.id.editTextPhone)).setFocusableInTouchMode(bool);
             ((EditText) (findViewById(R.id.editTextPhone))).setCursorVisible(bool);
@@ -271,7 +290,7 @@ public class ProfileActivity extends AppCompatActivity {
             (findViewById(R.id.editTextNumber3)).setFocusableInTouchMode(bool);
             ((EditText) (findViewById(R.id.editTextNumber3))).setCursorVisible(bool);
 
-            upd.put("Medical History", (Integer.parseInt(((EditText)findViewById(R.id.editTextTextMultiLine)).getText().toString())));
+            upd.put("Medical History", ((EditText)findViewById(R.id.editTextTextMultiLine)).getText().toString());
             (findViewById(R.id.editTextTextMultiLine)).setFocusable(bool);
             (findViewById(R.id.editTextTextMultiLine)).setFocusableInTouchMode(bool);
             ((EditText) (findViewById(R.id.editTextTextMultiLine))).setCursorVisible(bool);

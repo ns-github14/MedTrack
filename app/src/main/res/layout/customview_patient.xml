@@ -240,34 +240,8 @@
         android:background="@drawable/email_password"
         app:layout_constraintEnd_toEndOf="@id/name_d"
         app:layout_constraintStart_toEndOf="@+id/time_head"
-        app:layout_constraintBottom_toTopOf="@+id/desc"
-        app:layout_constraintTop_toBottomOf="@id/date_head"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Description:"
-        android:textSize="18dp"
-        android:id="@+id/desc_head"
-        android:textColor="#000"
-        android:layout_marginTop="20dp"
-        android:visibility="gone"
-        app:layout_constraintStart_toStartOf="@+id/time_head"
-        app:layout_constraintEnd_toEndOf="@+id/time_head"
-        app:layout_constraintTop_toTopOf="@+id/desc"
-        app:layout_constraintBottom_toBottomOf="@+id/desc"/>
-
-    <EditText
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/desc"
-        android:inputType="textMultiLine"
-        android:layout_marginLeft="20dp"
-        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/confirm"
-        app:layout_constraintTop_toBottomOf="@+id/time_head"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/desc_head"/>
+        app:layout_constraintTop_toBottomOf="@id/date_head"/>
 
     <Button
         android:id="@+id/confirm"
@@ -281,7 +255,7 @@
         android:textSize="13dp"
         android:layout_marginTop="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/desc"
+        app:layout_constraintTop_toBottomOf="@+id/time_head"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 

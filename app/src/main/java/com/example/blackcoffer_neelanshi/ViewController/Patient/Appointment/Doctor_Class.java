@@ -1,9 +1,7 @@
 package com.example.blackcoffer_neelanshi.ViewController.Patient.Appointment;
 
 public class Doctor_Class {
-    private String Name, Hospital, Location, Specialization, From_time, To_time, Gender;
-    private int Fees;
-    private Long Contact;
+    private String Name, Hospital, Location, Specialization, From_time, To_time, Gender, Fees, Contact;
 
     public Doctor_Class() {}
 
@@ -31,11 +29,11 @@ public class Doctor_Class {
         return To_time;
     }
 
-    public int getFees() {
+    public String getFees() {
         return Fees;
     }
 
-    public Long getContact() {
+    public String getContact() {
         return Contact;
     }
 }

@@ -62,8 +62,8 @@ public class ConfirmedFragment extends Fragment {
                 dialog.setContentView(R.layout.customdialog_status);
 
                 progressBar = dialog.findViewById(R.id.progressBar);
-                ((TextView)dialog.findViewById(R.id.heading)).setText("Accept Request?");
-                ((TextView)dialog.findViewById(R.id.subtext)).setText("You're accepting this appointment request.\n\n We will move it to 'Pending section' until a payment is made.\n\n Once the payment is received, you can confirm this session.");
+                ((TextView)dialog.findViewById(R.id.heading)).setText("Appointment Confirmed!");
+                ((TextView)dialog.findViewById(R.id.subtext)).setText("You're appointment session has been confirmed with the requested doctor.\n\n A reminder will be sent to you on the day of appointment.");
                 ((Button) dialog.findViewById(R.id.buttonOk)).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

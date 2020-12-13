@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.blackcoffer_neelanshi.Model.DbHelper;
 import com.example.blackcoffer_neelanshi.ViewController.Doctor.HomeActivity_Doc;
 import com.example.blackcoffer_neelanshi.ViewController.Patient.HomeActivity;
 import com.example.blackcoffer_neelanshi.R;
@@ -87,7 +88,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 if(task.isSuccessful()){
                     DocumentSnapshot doc = task.getResult();
                     type = doc.getString("Type");
-                    Toast.makeText(LoginActivity.this, type, Toast.LENGTH_LONG).show();
                     if(type.equals("Patient")) {
                         Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                         startActivity(intent);

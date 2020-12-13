@@ -1,8 +1,6 @@
 package com.example.blackcoffer_neelanshi.ViewController.Patient.Alarm;
 
 import android.app.AlarmManager;
-import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Intent;
@@ -14,13 +12,18 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.LinearLayout;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.NavUtils;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import java.net.URISyntaxException;
 import java.util.Calendar;
@@ -31,20 +34,22 @@ import com.example.blackcoffer_neelanshi.Model.Alarm;
 import com.example.blackcoffer_neelanshi.Model.Pill;
 import com.example.blackcoffer_neelanshi.Model.PillBox;
 import com.example.blackcoffer_neelanshi.R;
-import com.example.blackcoffer_neelanshi.ViewController.AlertNotif;
-import com.example.blackcoffer_neelanshi.ViewController.NotificationView;
-import com.example.blackcoffer_neelanshi.ViewController.Patient.MedActivity;
+import com.example.blackcoffer_neelanshi.ViewController.Login.LoginActivity;
+import com.example.blackcoffer_neelanshi.ViewController.Patient.Appointment.BookAppointmentActivity;
+import com.example.blackcoffer_neelanshi.ViewController.Patient.HomeActivity;
+import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
-/**
- * Utilized the link below as a reference guide:
- * http://wptrafficanalyzer.in/blog/setting-up-alarm-using-alarmmanager-and-waking-up-screen-and-unlocking-keypad-on-alarm-goes-off-in-android/
- *
- * This activity handles the view and controller of the add page, where the user can add an alarm
- */
 public class AddActivity extends AppCompatActivity {
     private AlarmManager alarmManager;
     private PendingIntent operation;
     private boolean dayOfWeekList[] = new boolean[7];
+    DrawerLayout drawer;
+    NavigationView navigationView;
+    FrameLayout frameLayout;
+    ActionBarDrawerToggle toggle;
+    ImageView imageView;
+    View header;
 
     int hour, minute;
     TextView timeLabel;
@@ -83,9 +88,46 @@ public class AddActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Add an Alarm");
 
+        androidx.appcompat.widget.Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        frameLayout = (FrameLayout) findViewById(R.id.frame);
+        header = navigationView.getHeaderView(0);
+        imageView = (ImageView) header.findViewById(R.id.imageView);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawer.closeDrawer(GravityCompat.START);
+            }
+        });
+        toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem menuItem) {
+                int id = menuItem.getItemId();
+                if(id == R.id.nav_home) {
+                    startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                } else if(id == R.id.nav_app) {
+                    startActivity(new Intent(getApplicationContext(), BookAppointmentActivity.class));
+                } else if(id == R.id.nav_add_med) {
+                    startActivity(new Intent(getApplicationContext(), AddActivity.class));
+                } else if(id == R.id.nav_pillbox) {
+                    startActivity(new Intent(getApplicationContext(), PillBoxActivity.class));
+                } else if(id == R.id.nav_week) {
+                    startActivity(new Intent(getApplicationContext(), ScheduleActivity.class));
+                } else if(id == R.id.nav_logout) {
+                    FirebaseAuth.getInstance().signOut();
+                    startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                }
+                drawer.closeDrawer(GravityCompat.START);
+                return true;
+            }
+        });
         // Set up the time string on the page
         timeLabel = (TextView)findViewById(R.id.reminder_time);
 
@@ -193,7 +235,7 @@ public class AddActivity extends AppCompatActivity {
                     Toast.makeText(getBaseContext(), "Please input a pill name or check at least one day!", Toast.LENGTH_SHORT).show();
                 else { // Input form is completely filled out
                     Toast.makeText(getBaseContext(), "Alarm for " + pill_name + " is set successfully", Toast.LENGTH_SHORT).show();
-                    Intent returnHome = new Intent(getBaseContext(), MedActivity.class);
+                    Intent returnHome = new Intent(getBaseContext(), HomeActivity.class);
                     startActivity(returnHome);
                     finish();
                 }
@@ -203,7 +245,7 @@ public class AddActivity extends AppCompatActivity {
         OnClickListener cancelClickListener = new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent returnHome = new Intent(getBaseContext(), MedActivity.class);
+                Intent returnHome = new Intent(getBaseContext(), HomeActivity.class);
                 startActivity(returnHome);
                 finish();
             }
@@ -270,14 +312,6 @@ public class AddActivity extends AppCompatActivity {
                 else
                     dayOfWeekList[0] = false;
                 break;
-            case R.id.every_day:
-                LinearLayout ll = (LinearLayout) findViewById(R.id.checkbox_layout);
-                for (int i = 0; i < ll.getChildCount(); i++) {
-                    View v = ll.getChildAt(i);
-                    ((CheckBox) v).setChecked(checked);
-                    onCheckboxClicked(v);
-                }
-                break;
         }
     }
 
@@ -293,7 +327,7 @@ public class AddActivity extends AppCompatActivity {
             NavUtils.navigateUpFromSameTask(this);
             return true;
         }
-        Intent returnHome = new Intent(getBaseContext(), MedActivity.class);
+        Intent returnHome = new Intent(getBaseContext(), HomeActivity.class);
         startActivity(returnHome);
         finish();
         return super.onOptionsItemSelected(item);
@@ -318,7 +352,7 @@ public class AddActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent returnHome = new Intent(getBaseContext(), MedActivity.class);
+        Intent returnHome = new Intent(getBaseContext(), HomeActivity.class);
         startActivity(returnHome);
         finish();
         }

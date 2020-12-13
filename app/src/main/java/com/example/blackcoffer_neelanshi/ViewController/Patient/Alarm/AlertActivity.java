@@ -3,8 +3,6 @@ package com.example.blackcoffer_neelanshi.ViewController.Patient.Alarm;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -22,9 +20,7 @@ import java.util.Date;
 import com.example.blackcoffer_neelanshi.Model.History;
 import com.example.blackcoffer_neelanshi.Model.Pill;
 import com.example.blackcoffer_neelanshi.Model.PillBox;
-import com.example.blackcoffer_neelanshi.R;
-import com.example.blackcoffer_neelanshi.ViewController.NotificationView;
-import com.example.blackcoffer_neelanshi.ViewController.Patient.MedActivity;
+import com.example.blackcoffer_neelanshi.ViewController.Patient.HomeActivity;
 
 /**
  * Utilized the link below as a reference guide:
@@ -109,7 +105,7 @@ public class AlertActivity extends FragmentActivity {
 
         Toast.makeText(getBaseContext(),  pillName + " was taken at "+ nonMilitaryHour + ":" + stringMinute + " " + am_pm + ".", Toast.LENGTH_SHORT).show();
 
-        Intent returnHistory = new Intent(getBaseContext(), MedActivity.class);
+        Intent returnHistory = new Intent(getBaseContext(), HomeActivity.class);
         startActivity(returnHistory);
         finish();
     }

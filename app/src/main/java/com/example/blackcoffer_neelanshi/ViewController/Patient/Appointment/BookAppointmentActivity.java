@@ -1,44 +1,52 @@
 package com.example.blackcoffer_neelanshi.ViewController.Patient.Appointment;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.blackcoffer_neelanshi.R;
+import com.example.blackcoffer_neelanshi.ViewController.Login.LoginActivity;
+import com.example.blackcoffer_neelanshi.ViewController.Patient.Alarm.AddActivity;
+import com.example.blackcoffer_neelanshi.ViewController.Patient.Alarm.PillBoxActivity;
+import com.example.blackcoffer_neelanshi.ViewController.Patient.Alarm.ScheduleActivity;
 import com.example.blackcoffer_neelanshi.ViewController.Patient.HomeActivity;
 import com.example.blackcoffer_neelanshi.ViewController.Patient.adapter.RVAdapter_Doctor_Class;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
-import java.text.DateFormat;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.TimeZone;
 
 public class BookAppointmentActivity extends AppCompatActivity {
 
@@ -47,11 +55,22 @@ public class BookAppointmentActivity extends AppCompatActivity {
     Query base;
     private ProgressBar progressBar;
     private int mYear, mMonth, mDay, mHour, mMinute;
+    DrawerLayout drawer;
+    NavigationView navigationView;
+    FrameLayout frameLayout;
+    ActionBarDrawerToggle toggle;
+    ImageView imageView;
+    Toolbar toolbar;
+    View header;
+    long timestamp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_appointment);
+
+        androidx.appcompat.widget.Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         base = FirebaseFirestore.getInstance().collection("Doctors");
         recyclerView = findViewById(R.id.rv);
@@ -69,6 +88,43 @@ public class BookAppointmentActivity extends AppCompatActivity {
             public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
                 String path = documentSnapshot.getReference().getPath();
                 showCustomDialog(path);
+            }
+        });
+
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        frameLayout = (FrameLayout) findViewById(R.id.frame);
+        header = navigationView.getHeaderView(0);
+        imageView = (ImageView) header.findViewById(R.id.imageView);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawer.closeDrawer(GravityCompat.START);
+            }
+        });
+        toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem menuItem) {
+                int id = menuItem.getItemId();
+                if(id == R.id.nav_home) {
+                    startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                } else if(id == R.id.nav_app) {
+                    startActivity(new Intent(getApplicationContext(), BookAppointmentActivity.class));
+                } else if(id == R.id.nav_add_med) {
+                    startActivity(new Intent(getApplicationContext(), AddActivity.class));
+                } else if(id == R.id.nav_pillbox) {
+                    startActivity(new Intent(getApplicationContext(), PillBoxActivity.class));
+                } else if(id == R.id.nav_week) {
+                    startActivity(new Intent(getApplicationContext(), ScheduleActivity.class));
+                } else if(id == R.id.nav_logout) {
+                    FirebaseAuth.getInstance().signOut();
+                    startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                }
+                drawer.closeDrawer(GravityCompat.START);
+                return true;
             }
         });
     }
@@ -106,34 +162,37 @@ public class BookAppointmentActivity extends AppCompatActivity {
                     ((TextView) dialog.findViewById(R.id.location_d)).setText(documentSnapshot.getString("Location"));
                     ((TextView) dialog.findViewById(R.id.gender_d)).setText(documentSnapshot.getString("Gender"));
                     ((TextView) dialog.findViewById(R.id.timings_d)).setText(documentSnapshot.getString("From_time") + " - " + documentSnapshot.getString("To_time"));
-                    ((TextView) dialog.findViewById(R.id.fees_d)).setText(String.valueOf(documentSnapshot.get("Fees")));
-                    ((TextView) dialog.findViewById(R.id.contact_d)).setText(String.valueOf(documentSnapshot.getLong("Contact")));
+                    ((TextView) dialog.findViewById(R.id.fees_d)).setText(documentSnapshot.getString("Fees"));
+                    ((TextView) dialog.findViewById(R.id.contact_d)).setText(documentSnapshot.getString("Contact"));
 
                     ((Button) dialog.findViewById(R.id.status)).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            ((Button) dialog.findViewById(R.id.status)).setVisibility(View.GONE);
                             ((TextView) dialog.findViewById(R.id.app)).setVisibility(View.VISIBLE);
                             ((Button) dialog.findViewById(R.id.date_head)).setVisibility(View.VISIBLE);
                             ((TextView) dialog.findViewById(R.id.date)).setVisibility(View.VISIBLE);
                             ((Button) dialog.findViewById(R.id.time_head)).setVisibility(View.VISIBLE);
                             ((TextView) dialog.findViewById(R.id.time)).setVisibility(View.VISIBLE);
-                            ((TextView) dialog.findViewById(R.id.desc_head)).setVisibility(View.VISIBLE);
-                            ((EditText) dialog.findViewById(R.id.desc)).setVisibility(View.VISIBLE);
                             ((Button) dialog.findViewById(R.id.confirm)).setVisibility(View.VISIBLE);
+                            ((Button) dialog.findViewById(R.id.status)).setVisibility(View.GONE);
+
+                            Calendar cal = new GregorianCalendar(TimeZone.getTimeZone("IST"));
+
                             ((Button) dialog.findViewById(R.id.date_head)).setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    //DatePicker datePicker = new DatePicker(BookAppointmentActivity.this);
-                                    final Calendar c = Calendar.getInstance();
+
+                                    final Calendar c = cal.getInstance();
                                     mYear = c.get(Calendar.YEAR);
                                     mMonth = c.get(Calendar.MONTH);
                                     mDay = c.get(Calendar.DAY_OF_MONTH);
-                                    String selectedDate = DateFormat.getDateInstance(DateFormat.FULL).format(c.getTime());
+
                                     DatePickerDialog datePickerDialog = new DatePickerDialog(BookAppointmentActivity.this, new DatePickerDialog.OnDateSetListener() {
                                         @Override
                                         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                                            ((TextView) dialog.findViewById(R.id.date)).setText(selectedDate);
+                                            ((TextView) dialog.findViewById(R.id.date)).setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+                                            cal.set(year, monthOfYear, dayOfMonth);
+                                            timestamp = c.getTimeInMillis();
                                         }
                                     }, mYear, mMonth, mDay);
                                     datePickerDialog.show();
@@ -150,48 +209,43 @@ public class BookAppointmentActivity extends AppCompatActivity {
                                     TimePickerDialog timePickerDialog = new TimePickerDialog(BookAppointmentActivity.this, new TimePickerDialog.OnTimeSetListener() {
                                         @Override
                                         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                                            ((TextView) dialog.findViewById(R.id.time)).setText(hourOfDay + ":" + minute);
+                                            String hourFormat = String.format("%02d", hourOfDay);
+                                            String minFormat = String.format("%02d", minute);
+                                            ((TextView) dialog.findViewById(R.id.time)).setText(hourOfDay + " : " + minute);
                                         }
-                                    }, mHour, mMinute, false);
+                                    }, mHour, mMinute, true);
                                     timePickerDialog.show();
                                 }
                             });
                             ((Button) dialog.findViewById(R.id.confirm)).setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    final String[] name = new String[1];
-                                    FirebaseFirestore.getInstance().collection("Patients").document(FirebaseAuth.getInstance().getCurrentUser().getEmail()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                            DocumentSnapshot d = task.getResult();
-                                            name[0] = (String) d.get("Name");
-                                        }
-                                    });
-                                    Map<String, Object> a = new HashMap<>();
+                                    HashMap<String, Object> a = new HashMap<>();
                                     a.put("Doctor", documentSnapshot.getId());
                                     a.put("Patient_Email", FirebaseAuth.getInstance().getCurrentUser().getEmail());
-                                    a.put("Patient", name);
-                                    a.put("Status", false);
-                                    a.put("Time", ((TextView) dialog.findViewById(R.id.time)).getText());
-                                    a.put("Date", ((TextView) dialog.findViewById(R.id.date)).getText());
-                                    a.put("Description",((EditText) dialog.findViewById(R.id.desc)).getText());
+                                    a.put("Status", "Requested");
+                                    a.put("Date", ((TextView) dialog.findViewById(R.id.date)).getText().toString());
+                                    a.put("Time", ((TextView) dialog.findViewById(R.id.time)).getText().toString());
                                     try {
                                         progressBar.setVisibility(View.VISIBLE);
                                         FirebaseFirestore.getInstance().collection("Appointments").document().set(a);
                                         progressBar.setVisibility(View.GONE);
+                                        dialog.cancel();
 
-                                        AlertDialog.Builder builder = new AlertDialog.Builder(BookAppointmentActivity.this);
-                                        ViewGroup viewGroup = findViewById(android.R.id.content);
-                                        View dialogView = LayoutInflater.from(v.getContext()).inflate(R.layout.customdialog_booking, viewGroup, false);
-                                        builder.setView(dialogView);
-                                        AlertDialog alertDialog = builder.create();
-                                        ((Button) alertDialog.findViewById(R.id.buttonOk)).setOnClickListener(new View.OnClickListener() {
+                                        final Dialog dial = new Dialog(BookAppointmentActivity.this);
+                                        dial.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                                        dial.setContentView(R.layout.customdialog_booking);
+                                        ((Button) dial.findViewById(R.id.buttonOk)).setOnClickListener(new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
                                                 startActivity(new Intent(BookAppointmentActivity.this, HomeActivity.class));
                                             }
                                         });
-                                        alertDialog.show();
+                                        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+                                        lp.copyFrom(dial.getWindow().getAttributes());
+                                        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+                                        dial.show();
+                                        dial.getWindow().setAttributes(lp);
                                     }
                                     catch (Exception e){
                                         Toast.makeText(BookAppointmentActivity.this,e.getMessage(),Toast.LENGTH_LONG).show();

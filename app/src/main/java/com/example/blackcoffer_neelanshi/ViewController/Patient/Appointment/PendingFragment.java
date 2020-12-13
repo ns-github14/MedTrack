@@ -16,6 +16,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.blackcoffer_neelanshi.R;
 import com.example.blackcoffer_neelanshi.Model.Appointment_Class;
@@ -62,15 +63,17 @@ public class PendingFragment extends Fragment {
                 dialog.setContentView(R.layout.customdialog_status);
 
                 progressBar = dialog.findViewById(R.id.progressBar);
-                ((TextView)dialog.findViewById(R.id.heading)).setText("Accept Request?");
-                ((TextView)dialog.findViewById(R.id.subtext)).setText("You're accepting this appointment request.\n\n We will move it to 'Pending section' until a payment is made.\n\n Once the payment is received, you can confirm this session.");
+                ((TextView)dialog.findViewById(R.id.heading)).setText("Pay Now!");
+                ((TextView)dialog.findViewById(R.id.subtext)).setText("You're appointment request has been accepted.\n\n Kindly proceed to payment to confirm this session.");
                 ((Button) dialog.findViewById(R.id.buttonOk)).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        progressBar.setVisibility(View.VISIBLE);
-                        FirebaseFirestore.getInstance().document(path).update("Status", "Pending");
-                        progressBar.setVisibility(View.GONE);
-                        startActivity(new Intent(getContext(), HomeActivity.class));
+                        Intent launchIntent = getContext().getPackageManager().getLaunchIntentForPackage("com.google.android.apps.nbu.paisa.user");
+                        if (launchIntent != null) {
+                            startActivity(launchIntent);
+                        } else {
+                            Toast.makeText(getActivity(), "There is no package available in android", Toast.LENGTH_LONG).show();
+                        }
                     }
                 });
 

@@ -13,7 +13,10 @@ import com.example.blackcoffer_neelanshi.R;
 import com.example.blackcoffer_neelanshi.Model.Appointment_Class;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class RVAdapter_App_Class extends FirestoreRecyclerAdapter<Appointment_Class, RVAdapter_App_Class.RVViewHolder> {
 
@@ -25,8 +28,18 @@ public class RVAdapter_App_Class extends FirestoreRecyclerAdapter<Appointment_Cl
 
     @Override
     protected void onBindViewHolder(@NonNull RVAdapter_App_Class.RVViewHolder holder, int position, @NonNull Appointment_Class model){
-        holder.name.setText(model.getPatient());
-        holder.email.setText(model.getPatient_Email());
+        FirebaseFirestore.getInstance().collection("Doctors").document(model.getDoctor()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    DocumentSnapshot d = task.getResult();
+                    String name = d.getString("Name");
+                    holder.name.setText(name);
+                }
+            }
+        });
+
+        holder.email.setText(model.getDoctor());
         holder.date.setText(model.getDate());
         holder.time.setText(model.getTime());
     }

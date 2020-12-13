@@ -1,7 +1,5 @@
 package com.example.blackcoffer_neelanshi.ViewController.Patient.Alarm;
 
-import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -22,24 +20,14 @@ import com.example.blackcoffer_neelanshi.Model.Alarm;
 import com.example.blackcoffer_neelanshi.Model.PillBox;
 import com.example.blackcoffer_neelanshi.R;
 
-/**
- * This fragment is based on the code at
- * http://www.feelzdroid.com/2014/10/android-action-bar-tabs-swipe-views.html
- *
- * This fragment handles the view and controller of the tomorrow tab on home screen
- */
-
 public class TomorrowFragment extends Fragment {
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_tomorrow, container, false);
 
         TableLayout stk = (TableLayout) rootView.findViewById(R.id.table_tomorrow);
-
-        //Typeface lightFont = Typeface.createFromAsset(container.getContext().getAssets(), "fonts/Roboto-Light.ttf");
 
         PillBox pillBox = new PillBox();
 
@@ -52,7 +40,8 @@ public class TomorrowFragment extends Fragment {
 
         try {
             alarms = pillBox.getAlarms(getActivity(), day);
-        } catch (URISyntaxException e) {
+        }
+        catch (URISyntaxException e) {
             e.printStackTrace();
         }
 
@@ -62,11 +51,10 @@ public class TomorrowFragment extends Fragment {
 
                 TextView t1v = new TextView(getActivity());
                 t1v.setText(alarm.getPillName());
-                //t1v.setTextColor(Color.WHITE);
                 t1v.setGravity(Gravity.CENTER);
                 t1v.setPadding(30, 30, 30, 30);
-                t1v.setTextSize(25);
-                //t1v.setTypeface(lightFont);
+                t1v.setTextSize(20);
+                t1v.setTextColor(getResources().getColor(android.R.color.black));
                 tbrow.addView(t1v);
 
                 TextView t2v = new TextView(getActivity());
@@ -74,25 +62,23 @@ public class TomorrowFragment extends Fragment {
                 String time = alarm.getStringTime();
 
                 t2v.setText(time);
-                //t2v.setTextColor(Color.WHITE);
                 t2v.setGravity(Gravity.CENTER);
                 t2v.setPadding(30, 30, 30, 30);
-                t2v.setTextSize(25);
-                //t2v.setTypeface(lightFont);
+                t2v.setTextSize(20);
+                t2v.setTextColor(getResources().getColor(android.R.color.black));
                 tbrow.addView(t2v);
 
                 stk.addView(tbrow);
             }
-        } else {
+        }
+        else {
             TableRow tbrow = new TableRow(getActivity());
 
             TextView t1v = new TextView(getActivity());
             t1v.setText("You don't have any alarms for Tomorrow!");
-            //t1v.setTextColor(Color.WHITE);
             t1v.setGravity(Gravity.CENTER);
             t1v.setPadding(30, 30, 30, 30);
-            t1v.setTextSize(25);
-            //t1v.setTypeface(lightFont);
+            t1v.setTextSize(20);
             t1v.setMaxEms(10);
             tbrow.addView(t1v);
 

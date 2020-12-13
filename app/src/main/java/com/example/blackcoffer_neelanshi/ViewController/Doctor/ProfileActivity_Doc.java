@@ -69,14 +69,14 @@ public class ProfileActivity_Doc extends AppCompatActivity {
                     DocumentSnapshot doc = task.getResult();
                     ((EditText) (findViewById(R.id.editTextTextPersonName))).setText(doc.getString("Name"));
                     ((EditText) (findViewById(R.id.editTextTextEmailAddress))).setText(email);
-                    ((EditText) (findViewById(R.id.editTextPhone))).setText(doc.getLong("Contact").toString());
+                    ((EditText) (findViewById(R.id.editTextPhone))).setText(doc.getString("Contact"));
                     ((EditText) (findViewById(R.id.editTextTextPostalAddress))).setText(doc.getString("Location"));
                     ((EditText) (findViewById(R.id.editTextNumber))).setText(doc.getString("Hospital"));
                     ((EditText) (findViewById(R.id.editTextTextPersonName2))).setText(doc.getString("Gender"));
                     ((EditText) (findViewById(R.id.editTextNumber2))).setText(doc.getString("Specialization"));
                     ((EditText) (findViewById(R.id.editTextNumber3))).setText(doc.getString("From (Time)"));
                     ((EditText) (findViewById(R.id.editTextTextPersonName3))).setText(doc.getString("To (Time)"));
-                    ((EditText) (findViewById(R.id.editTextTextMultiLine))).setText(doc.getLong("Fees").toString());
+                    ((EditText) (findViewById(R.id.editTextTextMultiLine))).setText(doc.getString("Fees"));
                 }
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -238,42 +238,42 @@ public class ProfileActivity_Doc extends AppCompatActivity {
             (findViewById(R.id.editTextTextPersonName)).setFocusableInTouchMode(bool);
             ((EditText) (findViewById(R.id.editTextTextPersonName))).setCursorVisible(bool);
 
-            upd.put("Gender", ((EditText)findViewById(R.id.editTextTextPersonName)).getText().toString());
+            upd.put("Gender", ((EditText)findViewById(R.id.editTextTextPersonName2)).getText().toString());
             (findViewById(R.id.editTextTextPersonName2)).setFocusable(bool);
             (findViewById(R.id.editTextTextPersonName2)).setFocusableInTouchMode(bool);
             ((EditText) (findViewById(R.id.editTextTextPersonName2))).setCursorVisible(bool);
 
-            upd.put("To (Time)", ((EditText)findViewById(R.id.editTextTextPersonName)).getText().toString());
+            upd.put("To (Time)", ((EditText)findViewById(R.id.editTextTextPersonName3)).getText().toString());
             (findViewById(R.id.editTextTextPersonName3)).setFocusable(bool);
             (findViewById(R.id.editTextTextPersonName3)).setFocusableInTouchMode(bool);
             ((EditText) (findViewById(R.id.editTextTextPersonName3))).setCursorVisible(bool);
 
-            upd.put("Location", ((EditText)findViewById(R.id.editTextTextPersonName)).getText().toString());
+            upd.put("Location", ((EditText)findViewById(R.id.editTextTextPostalAddress)).getText().toString());
             (findViewById(R.id.editTextTextPostalAddress)).setFocusable(bool);
             (findViewById(R.id.editTextTextPostalAddress)).setFocusableInTouchMode(bool);
             ((EditText) (findViewById(R.id.editTextTextPostalAddress))).setCursorVisible(bool);
 
-            upd.put("Contact", (Integer.parseInt(((EditText)findViewById(R.id.editTextTextPersonName)).getText().toString())));
+            upd.put("Contact", ((EditText)findViewById(R.id.editTextPhone)).getText().toString());
             (findViewById(R.id.editTextPhone)).setFocusable(bool);
             (findViewById(R.id.editTextPhone)).setFocusableInTouchMode(bool);
             ((EditText) (findViewById(R.id.editTextPhone))).setCursorVisible(bool);
 
-            upd.put("Hospital", ((EditText)findViewById(R.id.editTextTextPersonName)).getText().toString());
+            upd.put("Hospital", ((EditText)findViewById(R.id.editTextNumber)).getText().toString());
             (findViewById(R.id.editTextNumber)).setFocusable(bool);
             (findViewById(R.id.editTextNumber)).setFocusableInTouchMode(bool);
             ((EditText) (findViewById(R.id.editTextNumber))).setCursorVisible(bool);
 
-            upd.put("Specialization", ((EditText)findViewById(R.id.editTextTextPersonName)).getText().toString());
+            upd.put("Specialization", ((EditText)findViewById(R.id.editTextNumber2)).getText().toString());
             (findViewById(R.id.editTextNumber2)).setFocusable(bool);
             (findViewById(R.id.editTextNumber2)).setFocusableInTouchMode(bool);
             ((EditText) (findViewById(R.id.editTextNumber2))).setCursorVisible(bool);
 
-            upd.put("From (Time)", ((EditText)findViewById(R.id.editTextTextPersonName)).getText().toString());
+            upd.put("From (Time)", ((EditText)findViewById(R.id.editTextNumber3)).getText().toString());
             (findViewById(R.id.editTextNumber3)).setFocusable(bool);
             (findViewById(R.id.editTextNumber3)).setFocusableInTouchMode(bool);
             ((EditText) (findViewById(R.id.editTextNumber3))).setCursorVisible(bool);
 
-            upd.put("Fees", (Integer.parseInt(((EditText)findViewById(R.id.editTextTextPersonName)).getText().toString())));
+            upd.put("Fees", ((EditText)findViewById(R.id.editTextTextMultiLine)).getText().toString());
             (findViewById(R.id.editTextTextMultiLine)).setFocusable(bool);
             (findViewById(R.id.editTextTextMultiLine)).setFocusableInTouchMode(bool);
             ((EditText) (findViewById(R.id.editTextTextMultiLine))).setCursorVisible(bool);

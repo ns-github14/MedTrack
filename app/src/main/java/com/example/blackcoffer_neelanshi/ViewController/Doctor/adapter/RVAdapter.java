@@ -13,7 +13,10 @@ import com.example.blackcoffer_neelanshi.R;
 import com.example.blackcoffer_neelanshi.Model.Appointment_Class;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class RVAdapter extends FirestoreRecyclerAdapter<Appointment_Class, RVAdapter.RVViewHolder> {
 
@@ -25,10 +28,18 @@ public class RVAdapter extends FirestoreRecyclerAdapter<Appointment_Class, RVAda
 
     @Override
     protected void onBindViewHolder(@NonNull RVAdapter.RVViewHolder holder, int position, @NonNull Appointment_Class model){
-        holder.name.setText(model.getPatient());
+        FirebaseFirestore.getInstance().collection("Patients").document(model.getPatient_Email()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    DocumentSnapshot d = task.getResult();
+                    holder.name.setText(d.getString("Name"));
+                }
+            }
+        });
+
         holder.email.setText(model.getPatient_Email());
-        holder.date.setText(model.getDate());
-        holder.time.setText(model.getTime());
+        holder.date.setText(model.getDate().toString());
     }
 
     // Function to tell the class about the Card view (here

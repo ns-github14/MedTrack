@@ -18,6 +18,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import java.net.URISyntaxException;
 import java.util.Calendar;
@@ -28,7 +29,7 @@ import com.example.blackcoffer_neelanshi.Model.Alarm;
 import com.example.blackcoffer_neelanshi.Model.Pill;
 import com.example.blackcoffer_neelanshi.Model.PillBox;
 import com.example.blackcoffer_neelanshi.R;
-import com.example.blackcoffer_neelanshi.ViewController.Patient.MedActivity;
+import com.example.blackcoffer_neelanshi.ViewController.Patient.HomeActivity;
 
 /**
  * Utilized the link below as a reference guide:
@@ -65,8 +66,9 @@ public class EditActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Edit an Alarm");
+
+        androidx.appcompat.widget.Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         // Set up the time string on the page
         timeLabel=(TextView)findViewById(R.id.reminder_time);
@@ -241,7 +243,7 @@ public class EditActivity extends AppCompatActivity {
                     }
 
                     Toast.makeText(getBaseContext(), "Alarm for " + pill_name + " is set successfully", Toast.LENGTH_SHORT).show();
-                    Intent returnHome = new Intent(getBaseContext(), MedActivity.class);
+                    Intent returnHome = new Intent(getBaseContext(), HomeActivity.class);
                     startActivity(returnHome);
                     finish();
                 }
@@ -317,14 +319,6 @@ public class EditActivity extends AppCompatActivity {
                     dayOfWeekList[0] = true;
                 else
                     dayOfWeekList[0] = false;
-                break;
-            case R.id.every_day:
-                LinearLayout ll = (LinearLayout) findViewById(R.id.checkbox_layout);
-                for (int i=0; i < ll.getChildCount(); i++) {
-                    View v = ll.getChildAt(i);
-                    ((CheckBox) v).setChecked(checked);
-                    onCheckboxClicked(v);
-                }
                 break;
         }
     }

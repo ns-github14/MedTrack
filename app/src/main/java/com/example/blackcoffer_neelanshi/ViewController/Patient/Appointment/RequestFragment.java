@@ -1,9 +1,11 @@
 package com.example.blackcoffer_neelanshi.ViewController.Patient.Appointment;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -62,15 +64,37 @@ public class RequestFragment extends Fragment {
                 dialog.setContentView(R.layout.customdialog_status);
 
                 progressBar = dialog.findViewById(R.id.progressBar);
-                ((TextView)dialog.findViewById(R.id.heading)).setText("Accept Request?");
-                ((TextView)dialog.findViewById(R.id.subtext)).setText("You're accepting this appointment request.\n\n We will move it to 'Pending section' until a payment is made.\n\n Once the payment is received, you can confirm this session.");
+                ((TextView)dialog.findViewById(R.id.heading)).setText("Request Sent!");
+                ((TextView)dialog.findViewById(R.id.subtext)).setText("You're request for this session has been sent. Kindly wait for your doctor to accept your request.\n\n Once accepted, you will be asked to complete the payments in the 'Pending Section'.");
                 ((Button) dialog.findViewById(R.id.buttonOk)).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        progressBar.setVisibility(View.VISIBLE);
-                        FirebaseFirestore.getInstance().document(path).update("Status", "Pending");
-                        progressBar.setVisibility(View.GONE);
-                        startActivity(new Intent(getContext(), HomeActivity.class));
+                        dialog.cancel();
+                    }
+                });
+                ((Button) dialog.findViewById(R.id.buttonCancel)).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+                        alertDialogBuilder.setMessage("Are you sure, You wanted to cancel this appointment request?");
+                        alertDialogBuilder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface arg0, int arg1) {
+                                FirebaseFirestore.getInstance().document(path).delete();
+                                dialog.cancel();
+                            }
+                        });
+
+                        alertDialogBuilder.setNegativeButton("No",new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+
+                        AlertDialog alertDialog = alertDialogBuilder.create();
+                        alertDialog.show();
                     }
                 });
 

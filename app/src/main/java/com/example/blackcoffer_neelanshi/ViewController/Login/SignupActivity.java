@@ -91,8 +91,8 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         doc.put("Name", "");
         doc.put("Contact", 0);
         doc.put("Fees", 0);
-        doc.put("From (Time)", "");
-        doc.put("To (Time)", "");
+        doc.put("From_time", "");
+        doc.put("To_time", "");
         doc.put("Gender", "");
         doc.put("Hospital", "");
         doc.put("Location", "");
@@ -102,14 +102,15 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
 
         Map<String, Object> pat = new HashMap<>();
         pat.put("Name", "");
-        pat.put("Age", 0);
+        pat.put("Age", 18);
+        pat.put("Caretaker_Contact", 0000000000);
         pat.put("Gender", "");
-        pat.put("Contact", 0);
+        pat.put("Contact", 0000000000);
         pat.put("Location", "");
         pat.put("Height", 0);
         pat.put("Weight", 0);
         pat.put("Caretaker", "");
-        pat.put("Medical History", "");
+        pat.put("Medical_History", "");
 
         //creating a new user
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
