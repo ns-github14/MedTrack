@@ -41,7 +41,6 @@ public class RVAdapter_App_Class extends FirestoreRecyclerAdapter<Appointment_Cl
 
         holder.email.setText(model.getDoctor());
         holder.date.setText(model.getDate());
-        holder.time.setText(model.getTime());
     }
 
     // Function to tell the class about the Card view (here

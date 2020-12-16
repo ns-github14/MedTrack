@@ -2,11 +2,13 @@ package com.example.blackcoffer_neelanshi.ViewController.Patient;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -17,6 +19,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.ui.AppBarConfiguration;
+
+import com.example.blackcoffer_neelanshi.Model.MySingleton;
 import com.example.blackcoffer_neelanshi.R;
 import com.example.blackcoffer_neelanshi.ViewController.Login.LoginActivity;
 import com.example.blackcoffer_neelanshi.ViewController.Patient.Alarm.AddActivity;
@@ -28,6 +32,17 @@ import com.example.blackcoffer_neelanshi.ViewController.Patient.Appointment.Book
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -41,6 +56,16 @@ public class HomeActivity extends AppCompatActivity {
     ImageView imageView;
     Toolbar toolbar;
     View header;
+
+    final private String FCM_API = "https://fcm.googleapis.com/fcm/send";
+    final private String serverKey = "key=" + "AAAAtiA2yfU:APA91bF90q2Hijj4EC--Uaq8qtDEpaOtccf8P37dMzbmeL6OjFf8G5y4VoJpKTV848eX1-u2QlJ2RwafNex5TPYw5_-YphDDHVcPaHfaZeOxxYYo9DTvr4-E8hGXfRIlCRxLdC_93tfL";
+    final private String contentType = "application/json";
+    final String TAG = "NOTIFICATION TAG";
+
+    String NOTIFICATION_TITLE;
+    String NOTIFICATION_MESSAGE;
+    String TOPIC;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,6 +138,34 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
+
+    private void sendNotification(JSONObject notification) {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(FCM_API, notification,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.i(TAG, "onResponse: " + response.toString());
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(HomeActivity.this, "Request error", Toast.LENGTH_LONG).show();
+                        Log.i(TAG, "onErrorResponse: Didn't work");
+                    }
+                }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("Authorization", serverKey);
+                params.put("Content-Type", contentType);
+                return params;
+            }
+        };
+        MySingleton.getInstance(getApplicationContext()).addToRequestQueue(jsonObjectRequest);
+    }
+
+
     void openFragment(Fragment fragment){
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.frameLayout, fragment);
@@ -137,9 +190,27 @@ public class HomeActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_profile) {
-            Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
+
+            TOPIC = "/Users/sharmaneelanshi00@gmail.com"; //topic must match with what the receiver subscribed to
+            NOTIFICATION_TITLE = "MedTrack";
+            NOTIFICATION_MESSAGE = "Open to check updates";
+
+            JSONObject notification = new JSONObject();
+            JSONObject notifcationBody = new JSONObject();
+            try {
+                notifcationBody.put("title", NOTIFICATION_TITLE);
+                notifcationBody.put("message", NOTIFICATION_MESSAGE);
+
+                notification.put("to", TOPIC);
+                notification.put("data", notifcationBody);
+            } catch (JSONException e) {
+                Log.e(TAG, "onCreate: " + e.getMessage() );
+            }
+            sendNotification(notification);
+
+            /*Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
             i.putExtra("email", email);
-            startActivity(i);
+            startActivity(i);*/
             return true;
         }
 

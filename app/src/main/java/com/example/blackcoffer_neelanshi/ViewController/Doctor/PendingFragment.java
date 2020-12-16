@@ -1,18 +1,27 @@
 package com.example.blackcoffer_neelanshi.ViewController.Doctor;
 
+import android.Manifest;
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.provider.CalendarContract;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +30,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.blackcoffer_neelanshi.Model.Appointment_Class;
 import com.example.blackcoffer_neelanshi.R;
@@ -52,7 +62,10 @@ public class PendingFragment extends Fragment {
 
         recyclerView = view.findViewById(R.id.r);
 
-        Query base = FirebaseFirestore.getInstance().collection("Appointments").whereEqualTo("Doctor", FirebaseAuth.getInstance().getCurrentUser().getEmail()).whereEqualTo("Status", "Pending");
+        Query base = FirebaseFirestore.getInstance().collection("Appointments")
+                .whereEqualTo("Doctor", FirebaseAuth.getInstance().getCurrentUser().getEmail())
+                .whereEqualTo("Status", "Pending")
+                .whereGreaterThan("Date", System.currentTimeMillis() + 3600000);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -77,7 +90,6 @@ public class PendingFragment extends Fragment {
                     @Override
                     public void onClick(View v) {
                         progressBar.setVisibility(View.VISIBLE);
-                        FirebaseFirestore.getInstance().document(path).update("Status", "Confirmed");
                         FirebaseFirestore.getInstance().document(path).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -85,43 +97,13 @@ public class PendingFragment extends Fragment {
                                     DocumentSnapshot d = task.getResult();
 
 
-                                    SimpleDateFormat yyyyMMdd = new SimpleDateFormat("yyyyMMdd");
-                                    Calendar dt = Calendar.getInstance();
-
-// Where untilDate is a date instance of your choice, for example 30/01/2012
-                                    dt.setTime(dt.getTime());
-
-// If you want the event until 30/01/2012, you must add one day from our day because UNTIL in RRule sets events before the last day
-                                    dt.add(Calendar.DATE, 1);
-                                    String dtUntill = yyyyMMdd.format(dt.getTime());
-
-                                    ContentResolver cr = getContext().getContentResolver();
-                                    ContentValues values = new ContentValues();
-
-                                    values.put(CalendarContract.Events.DTSTART, d.getString("Date"));
-                                    values.put(CalendarContract.Events.TITLE, "Appointment with "+d.getString("Patient_Email"));
-                                    values.put(CalendarContract.Events.DESCRIPTION, "");
-
-                                    TimeZone timeZone = TimeZone.getDefault();
-                                    values.put(CalendarContract.Events.EVENT_TIMEZONE, timeZone.getID());
-
-// Default calendar
-                                    values.put(CalendarContract.Events.CALENDAR_ID, 1);
-
-                                    values.put(CalendarContract.Events.RRULE, "FREQ=ONCE" + dtUntill);
-// Set Period for 1 Hour
-                                    values.put(CalendarContract.Events.DURATION, "+P1H");
-
-                                    values.put(CalendarContract.Events.HAS_ALARM, 1);
-
-// Insert event to calendar
-                                    Uri uri = cr.insert(CalendarContract.Events.CONTENT_URI, values);
-
-
+                                    long startMillis = d.getLong("Date");
+                                    pushAppointmentsToCalender(getActivity(), "Appointment", startMillis, true, true, d.getString("Patient_Email"));
 
                                 }
                             }
                         });
+                        FirebaseFirestore.getInstance().document(path).update("Status", "Confirmed");
                         progressBar.setVisibility(View.GONE);
                         startActivity(new Intent(getContext(), HomeActivity_Doc.class));
                     }
@@ -137,6 +119,97 @@ public class PendingFragment extends Fragment {
 
         return view;
     }
+
+
+    public static long pushAppointmentsToCalender(Activity curActivity, String title, long startDate, boolean needReminder, boolean needMailService, String attendee) {
+        /***************** Event: note(without alert) *******************/
+
+        String eventUriString = "content://com.android.calendar/events";
+        ContentValues eventValues = new ContentValues();
+
+        eventValues.put("calendar_id", 1); // id, We need to choose from
+        // our mobile for primary
+        // its 1
+        eventValues.put("title", title);
+
+        long endDate = startDate + 1000 * 60 * 60; // For next 1hr
+
+        eventValues.put("dtstart", startDate);
+        eventValues.put("dtend", endDate);
+
+        // values.put("allDay", 1); //If it is bithday alarm or such
+        // kind (which should remind me for whole day) 0 for false, 1
+        // for true
+        eventValues.put("eventTimezone", "India");
+        /*Comment below visibility and transparency  column to avoid java.lang.IllegalArgumentException column visibility is invalid error */
+
+    /*eventValues.put("visibility", 3); // visibility to default (0),
+                                        // confidential (1), private
+                                        // (2), or public (3):
+    eventValues.put("transparency", 0); // You can control whether
+                                        // an event consumes time
+                                        // opaque (0) or transparent
+                                        // (1).
+      */
+        eventValues.put("hasAlarm", 1); // 0 for false, 1 for true
+
+        Uri eventUri = curActivity.getApplicationContext().getContentResolver().insert(Uri.parse(eventUriString), eventValues);
+        long eventID = Long.parseLong(eventUri.getLastPathSegment());
+
+        if (needReminder) {
+            /***************** Event: Reminder(with alert) Adding reminder to event *******************/
+
+            String reminderUriString = "content://com.android.calendar/reminders";
+
+            ContentValues reminderValues = new ContentValues();
+
+            reminderValues.put("event_id", eventID);
+            reminderValues.put("minutes", 5); // Default value of the
+            // system. Minutes is a
+            // integer
+            reminderValues.put("method", 1); // Alert Methods: Default(0),
+            // Alert(1), Email(2),
+            // SMS(3)
+
+            Uri reminderUri = curActivity.getApplicationContext().getContentResolver().insert(Uri.parse(reminderUriString), reminderValues);
+        }
+
+        /***************** Event: Meeting(without alert) Adding Attendies to the meeting *******************/
+
+        if (needMailService) {
+            String attendeuesesUriString = "content://com.android.calendar/attendees";
+
+            /********
+             * To add multiple attendees need to insert ContentValues multiple
+             * times
+             ***********/
+            ContentValues attendeesValues = new ContentValues();
+
+            attendeesValues.put("event_id", eventID);
+            attendeesValues.put("attendeeName", "attendee"); // Attendees name
+            attendeesValues.put("attendeeEmail", attendee);// Attendee
+            // E
+            // mail
+            // id
+            attendeesValues.put("attendeeRelationship", 0); // Relationship_Attendee(1),
+            // Relationship_None(0),
+            // Organizer(2),
+            // Performer(3),
+            // Speaker(4)
+            attendeesValues.put("attendeeType", 0); // None(0), Optional(1),
+            // Required(2), Resource(3)
+            attendeesValues.put("attendeeStatus", 0); // NOne(0), Accepted(1),
+            // Decline(2),
+            // Invited(3),
+            // Tentative(4)
+
+            Uri attendeuesesUri = curActivity.getApplicationContext().getContentResolver().insert(Uri.parse(attendeuesesUriString), attendeesValues);
+        }
+
+        return eventID;
+
+    }
+
 
     @Override
     public void onStart() {

@@ -45,7 +45,10 @@ public class RequestFragment extends Fragment {
 
         recyclerView = view.findViewById(R.id.r);
 
-        Query base = FirebaseFirestore.getInstance().collection("Appointments").whereEqualTo("Patient_Email", FirebaseAuth.getInstance().getCurrentUser().getEmail()).whereEqualTo("Status", "Requested");
+        Query base = FirebaseFirestore.getInstance().collection("Appointments")
+                .whereEqualTo("Patient_Email", FirebaseAuth.getInstance().getCurrentUser().getEmail())
+                .whereEqualTo("Status", "Requested")
+                .whereGreaterThan("Date", System.currentTimeMillis());
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 

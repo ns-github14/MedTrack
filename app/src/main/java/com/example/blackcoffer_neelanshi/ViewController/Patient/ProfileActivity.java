@@ -167,13 +167,9 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
     private void showResults(String currentAdd) {
-        String city = currentAdd.substring(0, currentAdd.indexOf(','));
-        String state = currentAdd.substring(currentAdd.indexOf(','));
-        String prevadd = ((EditText) findViewById(R.id.editTextTextPostalAddress)).getText().toString();
-        String prevcity = prevadd.substring(0, prevadd.indexOf(','));
-        String prevstate = prevadd.substring(prevadd.indexOf(','));
-        if((city != prevcity) || (state != prevstate)) {
-            Toast.makeText(ProfileActivity.this, "Different Location not " + prevadd + "/" + prevcity, Toast.LENGTH_LONG).show();
+        if(currentAdd != ((EditText) (findViewById(R.id.editTextTextPostalAddress))).getText().toString()) {
+            Toast.makeText(ProfileActivity.this, "Different Location " +
+                    ((EditText) (findViewById(R.id.editTextTextPostalAddress))).getText().toString(), Toast.LENGTH_LONG).show();
             AlertDialog.Builder builder = new AlertDialog.Builder(ProfileActivity.this);
             builder.setTitle("Different Location Detected");
             builder.setMessage("Your Location is: " + currentAdd);
@@ -182,8 +178,7 @@ public class ProfileActivity extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             //write to database
                             ((EditText) (findViewById(R.id.editTextTextPostalAddress))).setText(currentAdd);
-                            medtrack.collection("Patients").document(email)
-                                    .update("Location", currentAdd);
+                            medtrack.collection("Patients").document(email).update("Location", currentAdd);
                         }
                     });
             builder.setNegativeButton("Cancel",

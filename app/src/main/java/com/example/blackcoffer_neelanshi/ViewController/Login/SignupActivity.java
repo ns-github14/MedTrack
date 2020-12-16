@@ -22,6 +22,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -123,6 +124,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                         try {
                             medtrack.collection("Doctors").document(email).set(doc);
                             user.put("Type", "Doctor");
+                            user.put("TokenId", FirebaseInstanceId.getInstance().getToken());
                             medtrack.collection("Users").document(email).set(user);
                             startActivity(new Intent(getApplicationContext(), HomeActivity_Doc.class));
                         }

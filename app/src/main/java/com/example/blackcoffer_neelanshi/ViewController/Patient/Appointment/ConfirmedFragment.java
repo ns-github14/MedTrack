@@ -43,7 +43,10 @@ public class ConfirmedFragment extends Fragment {
 
         recyclerView = view.findViewById(R.id.r);
 
-        Query base = FirebaseFirestore.getInstance().collection("Appointments").whereEqualTo("Patient_Email", FirebaseAuth.getInstance().getCurrentUser().getEmail()).whereEqualTo("Status", "Confirmed");
+        Query base = FirebaseFirestore.getInstance().collection("Appointments")
+                .whereEqualTo("Patient_Email", FirebaseAuth.getInstance().getCurrentUser().getEmail())
+                .whereEqualTo("Status", "Confirmed")
+                .whereGreaterThan("Date", System.currentTimeMillis());
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -64,13 +67,11 @@ public class ConfirmedFragment extends Fragment {
                 progressBar = dialog.findViewById(R.id.progressBar);
                 ((TextView)dialog.findViewById(R.id.heading)).setText("Appointment Confirmed!");
                 ((TextView)dialog.findViewById(R.id.subtext)).setText("You're appointment session has been confirmed with the requested doctor.\n\n A reminder will be sent to you on the day of appointment.");
+                ((Button) dialog.findViewById(R.id.buttonCancel)).setVisibility(View.INVISIBLE);
                 ((Button) dialog.findViewById(R.id.buttonOk)).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        progressBar.setVisibility(View.VISIBLE);
-                        FirebaseFirestore.getInstance().document(path).update("Status", "Pending");
-                        progressBar.setVisibility(View.GONE);
-                        startActivity(new Intent(getContext(), HomeActivity.class));
+                        dialog.cancel();
                     }
                 });
 

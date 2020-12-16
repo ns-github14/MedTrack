@@ -1,7 +1,9 @@
 package com.example.blackcoffer_neelanshi.ViewController.Patient.Appointment;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -12,7 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -43,7 +47,11 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalTime;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.TimeZone;
@@ -54,7 +62,7 @@ public class BookAppointmentActivity extends AppCompatActivity {
     RVAdapter_Doctor_Class adapter;
     Query base;
     private ProgressBar progressBar;
-    private int mYear, mMonth, mDay, mHour, mMinute;
+    private int mYear, mMonth, mDay, mHour, mMinute, msec;
     DrawerLayout drawer;
     NavigationView navigationView;
     FrameLayout frameLayout;
@@ -176,7 +184,7 @@ public class BookAppointmentActivity extends AppCompatActivity {
                             ((Button) dialog.findViewById(R.id.confirm)).setVisibility(View.VISIBLE);
                             ((Button) dialog.findViewById(R.id.status)).setVisibility(View.GONE);
 
-                            Calendar cal = new GregorianCalendar(TimeZone.getTimeZone("IST"));
+                            Calendar cal = Calendar.getInstance();
 
                             ((Button) dialog.findViewById(R.id.date_head)).setOnClickListener(new View.OnClickListener() {
                                 @Override
@@ -190,9 +198,12 @@ public class BookAppointmentActivity extends AppCompatActivity {
                                     DatePickerDialog datePickerDialog = new DatePickerDialog(BookAppointmentActivity.this, new DatePickerDialog.OnDateSetListener() {
                                         @Override
                                         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                                            ((TextView) dialog.findViewById(R.id.date)).setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
-                                            cal.set(year, monthOfYear, dayOfMonth);
-                                            timestamp = c.getTimeInMillis();
+                                            String mm = String.format("%02d", monthOfYear+1);
+                                            String dd = String.format("%02d", dayOfMonth);
+                                            ((TextView) dialog.findViewById(R.id.date)).setText(year + "-" + mm + "-" + dd);
+                                            mYear = year;
+                                            mMonth = Integer.parseInt(mm) - 1;
+                                            mDay = Integer.parseInt(dd);
                                         }
                                     }, mYear, mMonth, mDay);
                                     datePickerDialog.show();
@@ -207,11 +218,17 @@ public class BookAppointmentActivity extends AppCompatActivity {
 
                                     // Launch Time Picker Dialog
                                     TimePickerDialog timePickerDialog = new TimePickerDialog(BookAppointmentActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                                        @RequiresApi(api = Build.VERSION_CODES.O)
                                         @Override
                                         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                                            String hourFormat = String.format("%02d", hourOfDay);
-                                            String minFormat = String.format("%02d", minute);
-                                            ((TextView) dialog.findViewById(R.id.time)).setText(hourOfDay + " : " + minute);
+                                            String hh = String.format("%02d", hourOfDay);
+                                            String mm = String.format("%02d", minute);
+                                            ((TextView) dialog.findViewById(R.id.time)).setText(hh + " : " + mm);
+                                            mHour = Integer.parseInt(hh);
+                                            mMinute = Integer.parseInt(mm);
+
+                                            //SimpleDateFormat sdf = new SimpleDateFormat("MMM dd,yyyy HH:mm");
+                                            //Toast.makeText(BookAppointmentActivity.this, sdf.format(date), Toast.LENGTH_SHORT).show();
                                         }
                                     }, mHour, mMinute, true);
                                     timePickerDialog.show();
@@ -220,35 +237,39 @@ public class BookAppointmentActivity extends AppCompatActivity {
                             ((Button) dialog.findViewById(R.id.confirm)).setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    HashMap<String, Object> a = new HashMap<>();
-                                    a.put("Doctor", documentSnapshot.getId());
-                                    a.put("Patient_Email", FirebaseAuth.getInstance().getCurrentUser().getEmail());
-                                    a.put("Status", "Requested");
-                                    a.put("Date", ((TextView) dialog.findViewById(R.id.date)).getText().toString());
-                                    a.put("Time", ((TextView) dialog.findViewById(R.id.time)).getText().toString());
-                                    try {
-                                        progressBar.setVisibility(View.VISIBLE);
-                                        FirebaseFirestore.getInstance().collection("Appointments").document().set(a);
-                                        progressBar.setVisibility(View.GONE);
-                                        dialog.cancel();
-
-                                        final Dialog dial = new Dialog(BookAppointmentActivity.this);
-                                        dial.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                                        dial.setContentView(R.layout.customdialog_booking);
-                                        ((Button) dial.findViewById(R.id.buttonOk)).setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) {
-                                                startActivity(new Intent(BookAppointmentActivity.this, HomeActivity.class));
-                                            }
-                                        });
-                                        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-                                        lp.copyFrom(dial.getWindow().getAttributes());
-                                        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-                                        dial.show();
-                                        dial.getWindow().setAttributes(lp);
+                                    cal.set(mYear, mMonth, mDay, mHour, mMinute, 0);
+                                    if (System.currentTimeMillis() + 86400000 > cal.getTimeInMillis()) {
+                                        Toast.makeText(BookAppointmentActivity.this, "Make sure to select a time atleast 24-hr from now!", Toast.LENGTH_SHORT).show();
                                     }
-                                    catch (Exception e){
-                                        Toast.makeText(BookAppointmentActivity.this,e.getMessage(),Toast.LENGTH_LONG).show();
+                                    else {
+                                        HashMap<String, Object> a = new HashMap<>();
+                                        a.put("Doctor", documentSnapshot.getId());
+                                        a.put("Patient_Email", FirebaseAuth.getInstance().getCurrentUser().getEmail());
+                                        a.put("Status", "Requested");
+                                        a.put("Date", cal.getTimeInMillis());
+                                        try {
+                                            progressBar.setVisibility(View.VISIBLE);
+                                            FirebaseFirestore.getInstance().collection("Appointments").document().set(a);
+                                            progressBar.setVisibility(View.GONE);
+                                            dialog.cancel();
+
+                                            final Dialog dial = new Dialog(BookAppointmentActivity.this);
+                                            dial.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                                            dial.setContentView(R.layout.customdialog_booking);
+                                            ((Button) dial.findViewById(R.id.buttonOk)).setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
+                                                    startActivity(new Intent(BookAppointmentActivity.this, HomeActivity.class));
+                                                }
+                                            });
+                                            WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+                                            lp.copyFrom(dial.getWindow().getAttributes());
+                                            lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+                                            dial.show();
+                                            dial.getWindow().setAttributes(lp);
+                                        } catch (Exception e) {
+                                            Toast.makeText(BookAppointmentActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                                        }
                                     }
                                 }
                             });

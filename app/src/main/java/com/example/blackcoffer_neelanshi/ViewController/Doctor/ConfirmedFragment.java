@@ -36,7 +36,10 @@ public class ConfirmedFragment extends Fragment {
 
         recyclerView = view.findViewById(R.id.r);
 
-        Query base = FirebaseFirestore.getInstance().collection("Appointments").whereEqualTo("Doctor", FirebaseAuth.getInstance().getCurrentUser().getEmail()).whereEqualTo("Status", "Confirmed");
+        Query base = FirebaseFirestore.getInstance().collection("Appointments")
+                .whereEqualTo("Doctor", FirebaseAuth.getInstance().getCurrentUser().getEmail())
+                .whereEqualTo("Status", "Confirmed")
+                .whereGreaterThan("Date", System.currentTimeMillis());
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
