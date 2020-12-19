@@ -15,6 +15,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
+import androidx.databinding.DataBindingUtil;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -37,6 +38,7 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -60,6 +62,7 @@ public class HomeActivity extends AppCompatActivity {
     final private String FCM_API = "https://fcm.googleapis.com/fcm/send";
     final private String serverKey = "key=" + "AAAAtiA2yfU:APA91bF90q2Hijj4EC--Uaq8qtDEpaOtccf8P37dMzbmeL6OjFf8G5y4VoJpKTV848eX1-u2QlJ2RwafNex5TPYw5_-YphDDHVcPaHfaZeOxxYYo9DTvr4-E8hGXfRIlCRxLdC_93tfL";
     final private String contentType = "application/json";
+
     final String TAG = "NOTIFICATION TAG";
 
     String NOTIFICATION_TITLE;
@@ -70,7 +73,7 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.home_patient);
+        //setContentView(R.layout.home_patient);
 
         auth = FirebaseAuth.getInstance();
         email = auth.getCurrentUser().getEmail();
@@ -135,6 +138,10 @@ public class HomeActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+       // ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.home_patient);
+        FirebaseMessaging.getInstance().subscribeToTopic("/messages/testmessage");
+
 
     }
 

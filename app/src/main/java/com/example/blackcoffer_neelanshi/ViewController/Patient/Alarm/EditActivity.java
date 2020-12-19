@@ -183,6 +183,10 @@ public class EditActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
+                Intent notifyIntent = new Intent(getApplicationContext(), AlarmReceiver.class);
+
+                alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
                 for(int i=0; i<7; i++) {
                     if (dayOfWeekList[i] && pill_name.length() != 0) {
 
@@ -192,23 +196,17 @@ public class EditActivity extends AppCompatActivity {
                         int id = (int) _id;
                         checkBoxCounter++;
 
-                        /** This intent invokes the activity AlertActivity, which in turn opens the AlertAlarm window */
-                        Intent intent = new Intent(getBaseContext(), AlertActivity.class);
-                        intent.putExtra("pill_name", pill_name);
-
-                        operation = PendingIntent.getActivity(getBaseContext(), id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-                        /** Getting a reference to the System Service ALARM_SERVICE */
-                        alarmManager = (AlarmManager) getBaseContext().getSystemService(ALARM_SERVICE);
-
                         /** Creating a calendar object corresponding to the date and time set by the user */
                         Calendar calendar = Calendar.getInstance();
-
+                        calendar.setTimeInMillis(System.currentTimeMillis());
                         calendar.set(Calendar.HOUR_OF_DAY, hour);
                         calendar.set(Calendar.MINUTE, minute);
                         calendar.set(Calendar.SECOND, 0);
-                        calendar.set(Calendar.MILLISECOND, 0);
                         calendar.set(Calendar.DAY_OF_WEEK, dayOfWeek);
+
+                        if (calendar.getTimeInMillis() < System.currentTimeMillis()) {
+                            calendar.add(Calendar.DAY_OF_YEAR, 7);
+                        }
 
                         /** Converting the date and time in to milliseconds elapsed since epoch */
                         long alarm_time = calendar.getTimeInMillis();
@@ -216,8 +214,11 @@ public class EditActivity extends AppCompatActivity {
                         if (calendar.before(Calendar.getInstance()))
                             alarm_time += AlarmManager.INTERVAL_DAY * 7;
 
-                        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, alarm_time,
-                                alarmManager.INTERVAL_DAY * 7, operation);
+                        notifyIntent.putExtra("notificationTime", hour + ":" + minute);
+                        notifyIntent.putExtra("notificationMedicationName", pill_name);
+
+                        PendingIntent alarmIntent = PendingIntent.getBroadcast(getApplicationContext(), id, notifyIntent, 0);
+                        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY * 7, alarmIntent);
                     }
                 }
                 /** Input form is not completely filled out */

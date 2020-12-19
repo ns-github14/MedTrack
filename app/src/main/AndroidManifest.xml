@@ -9,6 +9,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
             android:name=".ViewController.Patient.Appointment.BookAppointmentActivity"
             android:label="Doctors near you"
@@ -29,17 +30,6 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name=".ViewController.AlertNotif"
-            android:label="Notification" />
-        <activity
-            android:name=".ViewController.NotificationView"
-            android:label="Notification View"
-            android:parentActivityName=".ViewController.Patient.Alarm.AlertActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ViewController.Patient.Alarm.AlertActivity" />
         </activity>
         <activity
             android:name=".ViewController.Patient.Alarm.PillBoxActivity"
@@ -103,11 +93,9 @@
         </service>
 
         <service
-            android:name=".MyFirebaseMessagingService"
-            android:permission="com.google.android.c2dm.permission.SEND">
+            android:name=".MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
             </intent-filter>
         </service>
 
@@ -122,6 +110,13 @@
             </intent-filter>
 
         </service>
+
+        <receiver
+            android:name=".ViewController.Patient.Alarm.AlarmReceiver"
+            android:enabled="true"
+            android:exported="false">
+        </receiver>
+
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />

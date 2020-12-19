@@ -57,16 +57,17 @@ public class AlertActivity extends FragmentActivity {
         long currTime = System.currentTimeMillis();
         long min = currTime + minute * snoozeLength;
                                                                   
-        Intent intent = new Intent(getBaseContext(), AlertActivity.class);
-        intent.putExtra("pill_name", pillName);
+        Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
+        intent.putExtra("notificationTime", "Snooze");
+        intent.putExtra("notificationMedicationName", pillName);
 
-        operation = PendingIntent.getActivity(getBaseContext(), _id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        operation = PendingIntent.getBroadcast(getApplicationContext(), _id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         /** Getting a reference to the System Service ALARM_SERVICE */
-        alarmManager = (AlarmManager) getBaseContext().getSystemService(ALARM_SERVICE);
+        alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
         alarmManager.set(AlarmManager.RTC_WAKEUP, min, operation);
-        Toast.makeText(getBaseContext(), "Alarm for " + pillName + " was snoozed for 10 minutes", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "Alarm for " + pillName + " was snoozed for 10 minutes", Toast.LENGTH_SHORT).show();
 
         finish();
 
