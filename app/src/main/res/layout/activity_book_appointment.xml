@@ -46,9 +46,17 @@
                 app:layout_constraintTop_toBottomOf="@+id/appbar"
                 android:padding="4dp">
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:id="@+id/noresult"/>
+
                 <ScrollView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
+
+
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:layout_width="match_parent"

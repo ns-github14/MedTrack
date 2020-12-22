@@ -74,8 +74,8 @@ public class ProfileActivity_Doc extends AppCompatActivity {
                     ((EditText) (findViewById(R.id.editTextNumber))).setText(doc.getString("Hospital"));
                     ((EditText) (findViewById(R.id.editTextTextPersonName2))).setText(doc.getString("Gender"));
                     ((EditText) (findViewById(R.id.editTextNumber2))).setText(doc.getString("Specialization"));
-                    ((EditText) (findViewById(R.id.editTextNumber3))).setText(doc.getString("From (Time)"));
-                    ((EditText) (findViewById(R.id.editTextTextPersonName3))).setText(doc.getString("To (Time)"));
+                    ((EditText) (findViewById(R.id.editTextNumber3))).setText(doc.getString("From_time)"));
+                    ((EditText) (findViewById(R.id.editTextTextPersonName3))).setText(doc.getString("To_time)"));
                     ((EditText) (findViewById(R.id.editTextTextMultiLine))).setText(doc.getString("Fees"));
                 }
             }
@@ -155,7 +155,7 @@ public class ProfileActivity_Doc extends AppCompatActivity {
             }
         }
         private void showResults(String currentAdd) {
-            if(((EditText) (findViewById(R.id.editTextTextPostalAddress))).getText().toString() != currentAdd) {
+            if("Sitapur, Uttar Pradesh" != currentAdd) {
                 Toast.makeText(ProfileActivity_Doc.this, "Different Location", Toast.LENGTH_LONG).show();
                 AlertDialog.Builder builder = new AlertDialog.Builder(ProfileActivity_Doc.this);
                 builder.setTitle("Different Location Detected");

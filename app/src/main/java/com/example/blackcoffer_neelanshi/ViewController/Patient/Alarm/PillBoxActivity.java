@@ -33,9 +33,14 @@ import com.example.blackcoffer_neelanshi.Model.PillComparator;
 import com.example.blackcoffer_neelanshi.ViewController.Login.LoginActivity;
 import com.example.blackcoffer_neelanshi.ViewController.Patient.Appointment.BookAppointmentActivity;
 import com.example.blackcoffer_neelanshi.ViewController.Patient.HomeActivity;
+import com.example.blackcoffer_neelanshi.ViewController.Patient.ProfileActivity;
 import com.example.blackcoffer_neelanshi.ViewController.Patient.adapter.ExpandableListAdapter;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 /**
  * This activity handles the view and controller of the pillbox page, where
@@ -73,7 +78,17 @@ public class PillBoxActivity extends AppCompatActivity {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawer.closeDrawer(GravityCompat.START);
+                FirebaseFirestore.getInstance().collection("Patients")
+                        .document(FirebaseAuth.getInstance().getCurrentUser().getEmail())
+                        .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
+                        i.putExtra("email", FirebaseAuth.getInstance().getCurrentUser().getEmail());
+                        i.putExtra("Location", documentSnapshot.getString("Location"));
+                        startActivity(i);
+                    }
+                });
             }
         });
         toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -94,6 +109,10 @@ public class PillBoxActivity extends AppCompatActivity {
                 } else if(id == R.id.nav_week) {
                     startActivity(new Intent(getApplicationContext(), ScheduleActivity.class));
                 } else if(id == R.id.nav_logout) {
+                    FirebaseFirestore.getInstance().collection("Messages")
+                            .document(FirebaseInstanceId.getInstance().getToken()).delete();
+                    FirebaseFirestore.getInstance().collection("Users")
+                            .document(FirebaseAuth.getInstance().getCurrentUser().getEmail()).update("TokenId", "");
                     FirebaseAuth.getInstance().signOut();
                     startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                 }

@@ -23,6 +23,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.FirebaseInstanceIdReceiver;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -90,8 +91,8 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
     
         Map<String, Object> doc = new HashMap<>();
         doc.put("Name", "");
-        doc.put("Contact", 0);
-        doc.put("Fees", 0);
+        doc.put("Contact", "");
+        doc.put("Fees", "");
         doc.put("From_time", "");
         doc.put("To_time", "");
         doc.put("Gender", "");
@@ -100,6 +101,10 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         doc.put("Specialization", "");
 
         Map<String, String> user = new HashMap<String, String>();
+
+        Map<String, String> m = new HashMap<>();
+        m.put("title", "");
+        m.put("message", "");
 
         Map<String, Object> pat = new HashMap<>();
         pat.put("Name", "");
@@ -126,6 +131,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                             user.put("Type", "Doctor");
                             user.put("TokenId", FirebaseInstanceId.getInstance().getToken());
                             medtrack.collection("Users").document(email).set(user);
+                            medtrack.collection("Messages").document(FirebaseInstanceId.getInstance().getToken()).set(m);
                             startActivity(new Intent(getApplicationContext(), HomeActivity_Doc.class));
                         }
                         catch(Exception e){
@@ -136,7 +142,9 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                         try {
                             medtrack.collection("Patients").document(email).set(pat);
                             user.put("Type", "Patient");
+                            user.put("TokenId", FirebaseInstanceId.getInstance().getToken());
                             medtrack.collection("Users").document(email).set(user);
+                            medtrack.collection("Messages").document(FirebaseInstanceId.getInstance().getToken()).set(user);
                             startActivity(new Intent(getApplicationContext(), HomeActivity.class));
                         }
                         catch(Exception e){

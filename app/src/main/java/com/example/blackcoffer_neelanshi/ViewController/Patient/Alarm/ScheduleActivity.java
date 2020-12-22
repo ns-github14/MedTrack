@@ -29,8 +29,13 @@ import com.example.blackcoffer_neelanshi.R;
 import com.example.blackcoffer_neelanshi.ViewController.Login.LoginActivity;
 import com.example.blackcoffer_neelanshi.ViewController.Patient.Appointment.BookAppointmentActivity;
 import com.example.blackcoffer_neelanshi.ViewController.Patient.HomeActivity;
+import com.example.blackcoffer_neelanshi.ViewController.Patient.ProfileActivity;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 public class ScheduleActivity extends AppCompatActivity {
 
@@ -57,7 +62,17 @@ public class ScheduleActivity extends AppCompatActivity {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawer.closeDrawer(GravityCompat.START);
+                FirebaseFirestore.getInstance().collection("Patients")
+                        .document(FirebaseAuth.getInstance().getCurrentUser().getEmail())
+                        .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
+                        i.putExtra("email", FirebaseAuth.getInstance().getCurrentUser().getEmail());
+                        i.putExtra("Location", documentSnapshot.getString("Location"));
+                        startActivity(i);
+                    }
+                });
             }
         });
         toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -78,6 +93,11 @@ public class ScheduleActivity extends AppCompatActivity {
                 } else if(id == R.id.nav_week) {
                     startActivity(new Intent(getApplicationContext(), ScheduleActivity.class));
                 } else if(id == R.id.nav_logout) {
+
+                    FirebaseFirestore.getInstance().collection("Messages")
+                            .document(FirebaseInstanceId.getInstance().getToken()).delete();
+                    FirebaseFirestore.getInstance().collection("Users")
+                            .document(FirebaseAuth.getInstance().getCurrentUser().getEmail()).update("TokenId", "");
                     FirebaseAuth.getInstance().signOut();
                     startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                 }
@@ -103,9 +123,9 @@ public class ScheduleActivity extends AppCompatActivity {
             TextView headerText = new TextView(this);
 
             headerText.setText(day);
-            headerText.setTextSize(25);
+            headerText.setTextSize(20);
             headerText.setTextColor(Color.WHITE);
-            headerText.setPadding(0, 30, 0, 30);
+            headerText.setPadding(0, 20, 0, 20);
             headerText.setGravity(Gravity.CENTER);
 
             headerRow.addView(headerText);
@@ -132,7 +152,6 @@ public class ScheduleActivity extends AppCompatActivity {
                     t1v.setMaxEms(6);
                     t1v.setTextSize(20);
                     t1v.setPadding(0, 10, 0, 50);
-                    t1v.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                     t1v.setTextColor(getResources().getColor(android.R.color.black));
                     t1v.setGravity(Gravity.CENTER);
                     tbrow.addView(t1v);
@@ -141,7 +160,6 @@ public class ScheduleActivity extends AppCompatActivity {
 
                     String time = alarm.getStringTime();
                     t2v.setText(time);
-                    t2v.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                     t2v.setTextSize(20);
                     t2v.setPadding(0, 10, 0, 50);
                     t2v.setTextColor(getResources().getColor(android.R.color.black));
@@ -152,18 +170,20 @@ public class ScheduleActivity extends AppCompatActivity {
                 }
             } else {
                 TableRow tbrow = new TableRow(this);
-                TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT);
-                tbrow.setLayoutParams(lp);
 
                 TextView tv = new TextView(this);
                 tv.setGravity(Gravity.CENTER);
-                tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                 tv.setTextSize(15);
                 tv.setPadding(0, 10, 0, 50);
                 tv.setText("You don't have any alarms for " + day + ".");
 
                 tbrow.addView(tv);
                 stk.addView(tbrow);
+
+                //Let tv span two columns
+                TableRow.LayoutParams params2 = (TableRow.LayoutParams)tv.getLayoutParams();
+                params2.span = 2;
+                tv.setLayoutParams(params2);
             }
         }
     }

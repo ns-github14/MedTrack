@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -21,6 +22,7 @@ import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 
 import com.example.blackcoffer_neelanshi.ViewController.Patient.HomeActivity;
+import com.example.blackcoffer_neelanshi.ViewController.Patient.TestActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -37,9 +39,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-        super.onMessageReceived(remoteMessage);
-
-        final Intent intent = new Intent(this, HomeActivity.class);
+        final Intent intent;
+        PackageManager manager = getPackageManager();
+        intent = manager.getLaunchIntentForPackage("com.example.blackcoffer_neelanshi");
+        intent.addCategory(Intent.CATEGORY_LAUNCHER);
         NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
         int notificationID = new Random().nextInt(3000);
 
@@ -56,15 +59,16 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 PendingIntent.FLAG_ONE_SHOT);
 
         Bitmap largeIcon = BitmapFactory.decodeResource(getResources(),
-                R.drawable.ic_geolocate);
+                R.mipmap.ic_launcher_foreground);
 
         Uri notificationSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, ADMIN_CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_geolocate)
+                .setSmallIcon(R.mipmap.ic_launcher_foreground)
                 .setLargeIcon(largeIcon)
                 .setContentTitle(remoteMessage.getData().get("title"))
-                .setContentText(remoteMessage.getData().get("message"))
                 .setAutoCancel(true)
+                .setStyle(new NotificationCompat.BigTextStyle()
+                .bigText(remoteMessage.getData().get("message")))
                 .setSound(notificationSoundUri)
                 .setContentIntent(pendingIntent);
 
@@ -74,6 +78,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
         notificationManager.notify(notificationID, notificationBuilder.build());
     }
+
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void setupChannels(NotificationManager notificationManager){

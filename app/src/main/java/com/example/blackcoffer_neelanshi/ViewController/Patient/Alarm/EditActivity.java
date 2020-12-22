@@ -254,7 +254,7 @@ public class EditActivity extends AppCompatActivity {
         OnClickListener cancelClickListener = new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent returnHome = new Intent(getBaseContext(), PillBoxActivity.class);
+                Intent returnHome = new Intent(getBaseContext(), HomeActivity.class);
                 startActivity(returnHome);
                 finish();
             }

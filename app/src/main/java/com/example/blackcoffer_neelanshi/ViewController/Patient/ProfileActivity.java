@@ -167,7 +167,7 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
     private void showResults(String currentAdd) {
-        if(currentAdd != ((EditText) (findViewById(R.id.editTextTextPostalAddress))).getText().toString()) {
+        if(currentAdd != "Sitapur, Uttar Pradesh") {
             Toast.makeText(ProfileActivity.this, "Different Location " +
                     ((EditText) (findViewById(R.id.editTextTextPostalAddress))).getText().toString(), Toast.LENGTH_LONG).show();
             AlertDialog.Builder builder = new AlertDialog.Builder(ProfileActivity.this);
@@ -292,5 +292,11 @@ public class ProfileActivity extends AppCompatActivity {
 
             medtrack.collection("Patients").document(email).update(upd);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 }

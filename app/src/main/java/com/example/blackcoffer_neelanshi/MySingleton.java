@@ -1,4 +1,4 @@
-package com.example.blackcoffer_neelanshi.Model;
+package com.example.blackcoffer_neelanshi;
 
 import android.content.Context;
 

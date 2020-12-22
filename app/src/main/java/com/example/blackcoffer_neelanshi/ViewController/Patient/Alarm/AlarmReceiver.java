@@ -42,8 +42,8 @@ public class AlarmReceiver extends BroadcastReceiver {
         PendingIntent notificationIntent = PendingIntent.getActivity(context, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.mipmap.ic_launcher_foreground)
-                .setContentTitle("Medication reminder for " + intent.getStringExtra("notificationTime"))
-                .setContentText(intent.getStringExtra("notificationMedicationName"))
+                .setContentTitle("Time to take your pills!")
+                .setContentText("Medication reminder for " + intent.getStringExtra("notificationMedicationName"))
                 .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setContentIntent(notificationIntent)
                 .setAutoCancel(true);

@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,6 +18,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import org.w3c.dom.Text;
 
 public class RVAdapter_App_Class extends FirestoreRecyclerAdapter<Appointment_Class, RVAdapter_App_Class.RVViewHolder> {
 
@@ -59,6 +62,7 @@ public class RVAdapter_App_Class extends FirestoreRecyclerAdapter<Appointment_Cl
 
         TextView name, email, date, time;
         Button status;
+        ImageView imageView;
 
         public RVViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -67,6 +71,8 @@ public class RVAdapter_App_Class extends FirestoreRecyclerAdapter<Appointment_Cl
             date = itemView.findViewById(R.id.date);
             time = itemView.findViewById(R.id.time);
             status = itemView.findViewById(R.id.status);
+            imageView = itemView.findViewById(R.id.image);
+            imageView.setImageResource(R.mipmap.ic_doctor_foreground);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

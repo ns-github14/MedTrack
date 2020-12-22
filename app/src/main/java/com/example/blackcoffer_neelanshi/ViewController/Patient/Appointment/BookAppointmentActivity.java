@@ -16,6 +16,7 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -29,25 +30,37 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.blackcoffer_neelanshi.MySingleton;
 import com.example.blackcoffer_neelanshi.R;
 import com.example.blackcoffer_neelanshi.ViewController.Login.LoginActivity;
 import com.example.blackcoffer_neelanshi.ViewController.Patient.Alarm.AddActivity;
 import com.example.blackcoffer_neelanshi.ViewController.Patient.Alarm.PillBoxActivity;
 import com.example.blackcoffer_neelanshi.ViewController.Patient.Alarm.ScheduleActivity;
 import com.example.blackcoffer_neelanshi.ViewController.Patient.HomeActivity;
+import com.example.blackcoffer_neelanshi.ViewController.Patient.ProfileActivity;
 import com.example.blackcoffer_neelanshi.ViewController.Patient.adapter.RVAdapter_Doctor_Class;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.iid.FirebaseInstanceId;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Map;
 
 public class BookAppointmentActivity extends AppCompatActivity {
 
@@ -63,6 +76,11 @@ public class BookAppointmentActivity extends AppCompatActivity {
     ImageView imageView;
     View header;
 
+    final String TAG = "NOTIFICATION TAG";
+    final private String FCM_API = "https://fcm.googleapis.com/fcm/send";
+    final private String contentType = "application/json";
+    private String serverKey;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,25 +89,25 @@ public class BookAppointmentActivity extends AppCompatActivity {
         androidx.appcompat.widget.Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        base = FirebaseFirestore.getInstance().collection("Doctors");
-        recyclerView = findViewById(R.id.rv);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+                Toast.makeText(BookAppointmentActivity.this, getIntent().getStringExtra("Location"), Toast.LENGTH_SHORT).show();
+                base = FirebaseFirestore.getInstance().collection("Doctors").whereEqualTo("Location", getIntent().getStringExtra("Location"));
+                recyclerView = findViewById(R.id.rv);
+                recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
-        FirestoreRecyclerOptions<Doctor_Class> options = new FirestoreRecyclerOptions.Builder<Doctor_Class>().setQuery(base, Doctor_Class.class).build();
+                FirestoreRecyclerOptions<Doctor_Class> options = new FirestoreRecyclerOptions.Builder<Doctor_Class>().setQuery(base, Doctor_Class.class).build();
 
-        adapter = new RVAdapter_Doctor_Class(options);
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+                adapter = new RVAdapter_Doctor_Class(options);
+                progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
-        recyclerView.setAdapter(adapter);
+                recyclerView.setAdapter(adapter);
 
-        adapter.setOnItemClickListener(new RVAdapter_Doctor_Class.OnItemClickListener() {
-            @Override
-            public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
-                String path = documentSnapshot.getReference().getPath();
-                showCustomDialog(path);
-            }
-        });
-
+                adapter.setOnItemClickListener(new RVAdapter_Doctor_Class.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
+                        String path = documentSnapshot.getReference().getPath();
+                        showCustomDialog(path);
+                    }
+                });
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         frameLayout = (FrameLayout) findViewById(R.id.frame);
@@ -98,7 +116,17 @@ public class BookAppointmentActivity extends AppCompatActivity {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawer.closeDrawer(GravityCompat.START);
+                FirebaseFirestore.getInstance().collection("Patients")
+                        .document(FirebaseAuth.getInstance().getCurrentUser().getEmail())
+                        .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
+                        i.putExtra("email", FirebaseAuth.getInstance().getCurrentUser().getEmail());
+                        i.putExtra("Location", documentSnapshot.getString("Location"));
+                        startActivity(i);
+                    }
+                });
             }
         });
         toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -119,6 +147,11 @@ public class BookAppointmentActivity extends AppCompatActivity {
                 } else if(id == R.id.nav_week) {
                     startActivity(new Intent(getApplicationContext(), ScheduleActivity.class));
                 } else if(id == R.id.nav_logout) {
+
+                    FirebaseFirestore.getInstance().collection("Messages")
+                            .document(FirebaseInstanceId.getInstance().getToken()).delete();
+                    FirebaseFirestore.getInstance().collection("Users")
+                            .document(FirebaseAuth.getInstance().getCurrentUser().getEmail()).update("TokenId", "");
                     FirebaseAuth.getInstance().signOut();
                     startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                 }
@@ -151,6 +184,11 @@ public class BookAppointmentActivity extends AppCompatActivity {
                     @NonNull Doctor_Class model = new Doctor_Class();
                     DocumentSnapshot documentSnapshot = task.getResult();
 
+                    if(!documentSnapshot.exists()){
+                        TextView t = (TextView) findViewById(R.id.noresult);
+                        t.setVisibility(View.VISIBLE);
+                        t.setText("No doctors nearby...Try changing location in your Profile.");
+                    }
                     final Dialog dialog = new Dialog(BookAppointmentActivity.this);
                     dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                     dialog.setContentView(R.layout.customview_patient);
@@ -238,12 +276,51 @@ public class BookAppointmentActivity extends AppCompatActivity {
                                         a.put("Patient_Email", FirebaseAuth.getInstance().getCurrentUser().getEmail());
                                         a.put("Status", "Requested");
                                         a.put("Date", cal.getTimeInMillis());
+
                                         try {
                                             progressBar.setVisibility(View.VISIBLE);
-                                            FirebaseFirestore.getInstance().collection("Appointments").document().set(a);
-                                            FirebaseMessaging.getInstance().subscribeToTopic("Appointments");
+                                            String id = FirebaseFirestore.getInstance().collection("Appointments").document().getId();
+                                            FirebaseFirestore.getInstance().collection("Appointments").document(id).set(a);
                                             progressBar.setVisibility(View.GONE);
                                             dialog.cancel();
+
+
+                                            FirebaseFirestore.getInstance()
+                                                    .document("Users/serverkey")
+                                                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                    if(task.isSuccessful()) {
+                                                        serverKey = "key=" + task.getResult().getString("key");
+
+                                                        FirebaseFirestore.getInstance()
+                                                                .collection("Users")
+                                                                .document(documentSnapshot.getId())
+                                                                .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                                            @Override
+                                                            public void onSuccess(DocumentSnapshot documentSnapshot) {
+
+                                                                String TOPIC = "/Messages/" + documentSnapshot.getString("TokenId"); //topic must match with what the receiver subscribed to
+                                                                String NOTIFICATION_TITLE = "New Appointment Request";
+                                                                String NOTIFICATION_MESSAGE = "You've got a new appointment request from " + FirebaseAuth.getInstance().getCurrentUser().getEmail();                                                                JSONObject notification = new JSONObject();
+                                                                JSONObject notifcationBody = new JSONObject();
+
+                                                                try {
+                                                                    notifcationBody.put("title", NOTIFICATION_TITLE);
+                                                                    notifcationBody.put("message", NOTIFICATION_MESSAGE);
+
+                                                                    notification.put("to", TOPIC);
+                                                                    notification.put("data", notifcationBody);
+                                                                } catch (JSONException e) {
+                                                                    Log.e(TAG, "onCreate: " + e.getMessage());
+                                                                }
+                                                                sendNotification(notification);
+                                                            }
+                                                        });
+                                                    }
+                                                }
+                                            });
+
 
                                             final Dialog dial = new Dialog(BookAppointmentActivity.this);
                                             dial.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -276,6 +353,32 @@ public class BookAppointmentActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void sendNotification(JSONObject notification) {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(FCM_API, notification,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.i(TAG, "onResponse: " + response.toString());
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(BookAppointmentActivity.this, "Request error", Toast.LENGTH_LONG).show();
+                        Log.i(TAG, "onErrorResponse: Didn't work");
+                    }
+                }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("Authorization", serverKey);
+                params.put("Content-Type", contentType);
+                return params;
+            }
+        };
+        MySingleton.getInstance(getApplicationContext()).addToRequestQueue(jsonObjectRequest);
     }
 
     @Override

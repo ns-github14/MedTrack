@@ -1,10 +1,15 @@
 package com.example.blackcoffer_neelanshi.ViewController.Patient.Alarm;
 
 import android.app.AlarmManager;
+import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,6 +27,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.NavUtils;
+import androidx.core.app.NotificationCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -37,10 +43,21 @@ import com.example.blackcoffer_neelanshi.R;
 import com.example.blackcoffer_neelanshi.ViewController.Login.LoginActivity;
 import com.example.blackcoffer_neelanshi.ViewController.Patient.Appointment.BookAppointmentActivity;
 import com.example.blackcoffer_neelanshi.ViewController.Patient.HomeActivity;
+import com.example.blackcoffer_neelanshi.ViewController.Patient.ProfileActivity;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 public class AddActivity extends AppCompatActivity {
+
+    public static final String NOTIFICATION_CHANNEL_ID = "10001" ;
+    public static final int DAILY_REMINDER_REQUEST_CODE = 100;
+    private final static String default_notification_channel_id = "default" ;
+
+
     private AlarmManager alarmManager;
     private PendingIntent operation;
     private boolean dayOfWeekList[] = new boolean[7];
@@ -67,23 +84,6 @@ public class AddActivity extends AppCompatActivity {
         }
     };
 
-    /*public void showNotifications( String pill_name ) {
-        Intent i = new Intent(getApplicationContext(), AlertActivity.class);
-        i.putExtra("pill_name", pill_name);
-        PendingIntent pIntent = PendingIntent.getActivity(NotificationView.this, (int) System.currentTimeMillis(), intent, 0);
-        // build notification
-        // the addAction re-use the same intent to keep the example short
-        Notification n  = new Notification.Builder(NotificationView.this)
-                .setContentTitle("Time to take your meds!")
-                .setContentText("Subject")
-                .setSmallIcon(R.drawable.ic_user_foreground)
-                .setContentIntent(pIntent)
-                .setAutoCancel(true).build();
-        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        notificationManager.notify(0, n);
-        startActivity(new Intent(getApplicationContext(), AlertActivity.class));
-    }*/
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,7 +100,17 @@ public class AddActivity extends AppCompatActivity {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawer.closeDrawer(GravityCompat.START);
+                FirebaseFirestore.getInstance().collection("Patients")
+                        .document(FirebaseAuth.getInstance().getCurrentUser().getEmail())
+                        .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
+                        i.putExtra("email", FirebaseAuth.getInstance().getCurrentUser().getEmail());
+                        i.putExtra("Location", documentSnapshot.getString("Location"));
+                        startActivity(i);
+                    }
+                });
             }
         });
         toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -121,6 +131,11 @@ public class AddActivity extends AppCompatActivity {
                 } else if(id == R.id.nav_week) {
                     startActivity(new Intent(getApplicationContext(), ScheduleActivity.class));
                 } else if(id == R.id.nav_logout) {
+
+                    FirebaseFirestore.getInstance().collection("Messages")
+                            .document(FirebaseInstanceId.getInstance().getToken()).delete();
+                    FirebaseFirestore.getInstance().collection("Users")
+                            .document(FirebaseAuth.getInstance().getCurrentUser().getEmail()).update("TokenId", "");
                     FirebaseAuth.getInstance().signOut();
                     startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                 }
@@ -192,6 +207,10 @@ public class AddActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
+                Intent notifyIntent = new Intent(getApplicationContext(), AlarmReceiver.class);
+
+                alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
                 for(int i=0; i<7; i++) {
                     if (dayOfWeekList[i] && pill_name.length() != 0) {
 
@@ -201,24 +220,17 @@ public class AddActivity extends AppCompatActivity {
                         int id = (int) _id;
                         checkBoxCounter++;
 
-                        //showNotifications(pill_name);
-
-                        /** This intent invokes the activity AlertActivity, which in turn opens the AlertAlarm window */
-                        Intent intent = new Intent(getBaseContext(), AlertActivity.class);
-                        intent.putExtra("pill_name", pill_name);
-                        operation = PendingIntent.getActivity(getBaseContext(), id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-                        /** Getting a reference to the System Service ALARM_SERVICE */
-                        alarmManager = (AlarmManager) getBaseContext().getSystemService(ALARM_SERVICE);
-
                         /** Creating a calendar object corresponding to the date and time set by the user */
                         Calendar calendar = Calendar.getInstance();
-
+                        calendar.setTimeInMillis(System.currentTimeMillis());
                         calendar.set(Calendar.HOUR_OF_DAY, hour);
                         calendar.set(Calendar.MINUTE, minute);
                         calendar.set(Calendar.SECOND, 0);
-                        calendar.set(Calendar.MILLISECOND, 0);
                         calendar.set(Calendar.DAY_OF_WEEK, dayOfWeek);
+
+                        if (calendar.getTimeInMillis() < System.currentTimeMillis()) {
+                            calendar.add(Calendar.DAY_OF_YEAR, 7);
+                        }
 
                         /** Converting the date and time in to milliseconds elapsed since epoch */
                         long alarm_time = calendar.getTimeInMillis();
@@ -226,8 +238,13 @@ public class AddActivity extends AppCompatActivity {
                         if (calendar.before(Calendar.getInstance()))
                             alarm_time += AlarmManager.INTERVAL_DAY * 7;
 
-                        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, alarm_time,
-                                alarmManager.INTERVAL_DAY * 7, operation);
+                        //notifyIntent.setAction(ACTION_SNOOZE);
+                        notifyIntent.putExtra("notificationTime", hour + ":" + minute);
+                        notifyIntent.putExtra("notificationMedicationName", pill_name);
+
+                        PendingIntent alarmIntent = PendingIntent.getBroadcast(getApplicationContext(), id, notifyIntent, 0);
+                        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY * 7, alarmIntent);
+                        Toast.makeText(AddActivity.this, "Alarm " + id + " set for "+ pill_name + " at " + calendar.getTime() + " repeating on " + AlarmManager.INTERVAL_DAY*7 , Toast.LENGTH_LONG).show();
                     }
                 }
                 /** Input form is not completely filled out */
@@ -257,6 +274,29 @@ public class AddActivity extends AppCompatActivity {
         Button btnQuitAlarm = (Button) findViewById(R.id.btn_cancel_alarm);
         btnQuitAlarm.setOnClickListener(cancelClickListener);
     }
+
+
+    /*private void scheduleNotification (Notification notification , int delay) {
+        Intent notificationIntent = new Intent( this, AlarmReceiver.class ) ;
+        notificationIntent.putExtra(AlarmReceiver.NOTIFICATION_ID , 1 ) ;
+        notificationIntent.putExtra(AlarmReceiver.NOTIFICATION , notification) ;
+        PendingIntent pendingIntent = PendingIntent. getBroadcast ( this, 0 , notificationIntent , PendingIntent. FLAG_UPDATE_CURRENT ) ;
+        long futureInMillis = SystemClock. elapsedRealtime () + delay ;
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context. ALARM_SERVICE ) ;
+        assert alarmManager != null;
+        alarmManager.set(AlarmManager. ELAPSED_REALTIME_WAKEUP , futureInMillis , pendingIntent) ;
+    }
+    private Notification getNotification (String content) {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder( this, default_notification_channel_id ) ;
+        builder.setContentTitle( "Scheduled Notification" ) ;
+        builder.setContentText(content) ;
+        builder.setSmallIcon(R.drawable. ic_launcher_foreground ) ;
+        builder.setAutoCancel( true ) ;
+        builder.setChannelId( NOTIFICATION_CHANNEL_ID ) ;
+        return builder.build() ;
+    }
+*/
+
 
     @Override
     /** Inflate the menu; this adds items to the action bar if it is present */

@@ -33,6 +33,9 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.messaging.FirebaseMessaging;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static android.content.ContentValues.TAG;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
@@ -44,6 +47,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private ProgressBar progressBar;
     String email, password, type;
     private FirebaseFirestore medtrack;
+    HashMap<String, String> m = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,22 +57,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         e2 = (EditText) findViewById(R.id.password_text);
         t = (TextView) findViewById(R.id.signup_link);
         b1 = (Button) findViewById(R.id.login_button);
-        r = (RadioButton) findViewById(R.id.remember_me);
         progressBar = findViewById(R.id.progressBar);
         auth = FirebaseAuth.getInstance();
-
-
-        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
-            @Override
-            public void onComplete(@NonNull Task<String> task) {
-                if(!task.isSuccessful()) {
-                    Log.w(TAG, "Fetching FCM registration token failed", task.getException());
-                    return;
-                }
-                String token = task.getResult();
-                Toast.makeText(LoginActivity.this, token, Toast.LENGTH_LONG).show();
-            }
-        });
     }
 
     private void loginUserAccount(){
@@ -86,11 +76,26 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             return;
         }
 
+        Map<String, String> m = new HashMap<>();
+        m.put("title", "");
+        m.put("message", "");
+
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
-                    FirebaseFirestore.getInstance().collection("Users").document(email).update("TokenId", FirebaseInstanceId.getInstance().getToken());
+                    FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+                        @Override
+                        public void onComplete(@NonNull Task<String> task) {
+                            if(!task.isSuccessful()) {
+                                Log.w(TAG, "Fetching FCM registration token failed", task.getException());
+                                return;
+                            }
+                            String token = task.getResult();
+                            medtrack.collection("Users").document(email).update("TokenId", token);
+                            medtrack.collection("Messages").document(token).set(m);
+                        }
+                    });
                     Toast.makeText(getApplicationContext(), "Login Successful!", Toast.LENGTH_LONG).show();
                     progressBar.setVisibility(View.GONE);
                     onSuccessfulLogin();

@@ -29,6 +29,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
+import org.w3c.dom.Text;
+
 public class RequestFragment extends Fragment {
 
     public RequestFragment() {}
@@ -48,7 +50,8 @@ public class RequestFragment extends Fragment {
         Query base = FirebaseFirestore.getInstance().collection("Appointments")
                 .whereEqualTo("Patient_Email", FirebaseAuth.getInstance().getCurrentUser().getEmail())
                 .whereEqualTo("Status", "Requested")
-                .whereGreaterThan("Date", System.currentTimeMillis());
+                .whereGreaterThan("Date", System.currentTimeMillis())
+                .orderBy("Date", Query.Direction.ASCENDING);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 

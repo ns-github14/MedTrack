@@ -46,7 +46,8 @@ public class ConfirmedFragment extends Fragment {
         Query base = FirebaseFirestore.getInstance().collection("Appointments")
                 .whereEqualTo("Patient_Email", FirebaseAuth.getInstance().getCurrentUser().getEmail())
                 .whereEqualTo("Status", "Confirmed")
-                .whereGreaterThan("Date", System.currentTimeMillis());
+                .whereGreaterThan("Date", System.currentTimeMillis())
+                .orderBy("Date", Query.Direction.ASCENDING);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
