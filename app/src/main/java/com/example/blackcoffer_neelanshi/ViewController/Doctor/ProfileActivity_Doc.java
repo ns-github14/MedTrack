@@ -155,7 +155,7 @@ public class ProfileActivity_Doc extends AppCompatActivity {
             }
         }
         private void showResults(String currentAdd) {
-            if("Sitapur, Uttar Pradesh" != currentAdd) {
+            if(getIntent().getStringExtra("Location) != currentAdd) {
                 Toast.makeText(ProfileActivity_Doc.this, "Different Location", Toast.LENGTH_LONG).show();
                 AlertDialog.Builder builder = new AlertDialog.Builder(ProfileActivity_Doc.this);
                 builder.setTitle("Different Location Detected");
