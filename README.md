@@ -39,18 +39,3 @@ status of confirmation
 3. It acts as a bridge between the patient and the doctor
 4. It helps to improve the health industry
 <br/>
-The application allows smooth functioning of booking appointments with multiple
-doctors successively. With the world going virtual and digital, the application
-allows you to:
-1. Pay for your appointments online through the help of third-party applications
-like G-Pay
-2. Get virtual invites for reminders via Google Calendars. Never miss out on an
-appointment!
-3. Get in touch with your doctors and patient via email, phone or visit their
-clinics.
-4. Get doctors nearby based on your current or recent locations
-<br/>
-In recent times, from the startup to multi-specialty clinics, doctors are using
-smartphones to make their work efficient. As medical professionals need to
-prepare for any emergency condition, efficiently developed medical apps
-implement the best help to remain alert anytime and anywhere.
